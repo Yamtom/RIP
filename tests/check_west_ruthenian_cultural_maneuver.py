@@ -176,11 +176,11 @@ def check_province_names_and_compatibility() -> None:
 
     # Hadiach mission & event layout registration
     plc_missions = (ROOT / "missions" / "zzz_Poland_Commonwealth_Rework.txt").read_text(encoding="utf-8")
-    for series_name in ("POL_re_missions_1", "POL_re_missions_2"):
+    for series_name in ("POL_re_missions_1", "POL_re_missions_2", "POL_re_missions_3", "POL_re_missions_4"):
         series, _ = extract_brace_block(plc_missions, series_name)
         assert "generic = no" in series
         potential, _ = extract_brace_block(series, "potential")
-        assert {"POL", "PLC"} == set(re.findall(r"\btag = (\w+)", potential))
+        assert {"PLC"} == set(re.findall(r"\btag = (\w+)", potential))
     commission, _ = extract_brace_block(plc_missions, "pol_hadiach_commission")
     subject, _ = extract_brace_block(commission, "any_subject_country")
     for culture in ("rusyn_west_ruthenian", "rusyn_west_slavic",

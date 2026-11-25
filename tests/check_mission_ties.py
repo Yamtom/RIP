@@ -3,7 +3,8 @@
 EU4 stacks the series of one column in file order and a mission lands on max(previous row + 1, position), so a
 series that sorts after the vanilla ones and has no prerequisite sits far below the tree with no arrow. The
 series of Moscow, Lithuania, the Tatars and the Ottomans were rebuilt so that each first mission has the last
-mission of the vanilla column as its prerequisite and sits on the row under it. A parent has to exist in the
+mission of the vanilla column as its prerequisite and sits on the row under it (Austria hangs from a named
+vanilla mission, which in the older tree is not the last one of its column). A parent has to exist in the
 variant the player sees, so each tree has one series per variant (the Domination, Lions of the North or Winds of
 Change tree, and the older tree). Mission keys cannot repeat across series, so the second copy carries its own
 keys (`_classic`, `_alt`) and quotes the loc of the first.
@@ -71,6 +72,11 @@ CASES = [
         ("rip_tur_podillian_eyalet_classic", 1, 8, "conquer_hungary")]),
     ("Rum", "RUM", None, [
         ("rip_tur_podillian_eyalet_classic", 1, 8, "conquer_hungary")]),
+    ("Austria, Winds of Change", "HAB", None, [
+        ("rip_hab_galician_ruthenians", 5, 13, "hab_shift_in_balance")]),
+    # The older column 5 goes on to row 10, so this arrow passes behind the vanilla cards under conquer_transylvania.
+    ("Austria without Winds of Change", "HAB", "Winds of Change", [
+        ("rip_hab_galician_ruthenians_classic", 5, 13, "conquer_transylvania")]),
 ]
 
 # main series, its twin, the file, the suffix the twin's keys carry
@@ -80,6 +86,8 @@ TWINS = [
     ("rip_lit_ruthenian_missions", "rip_lit_ruthenian_missions_classic", "zzzzz_Neighbor_Ruthenian_Missions.txt", "_classic"),
     ("rip_lit_volok_missions", "rip_lit_volok_missions_classic", "zzzzz_Neighbor_Ruthenian_Missions.txt", "_classic"),
     ("rip_tur_ruthenian_missions", "rip_tur_ruthenian_missions_classic", "zzzzz_Neighbor_Ruthenian_Missions.txt", "_classic"),
+    ("rip_austrian_ruthenian_contacts", "rip_austrian_ruthenian_contacts_classic",
+     "zzzz_Ruthenian_Contacts_Horde_Habsburg.txt", "_classic"),
 ]
 LOC_FILES = ("RIP_shared_ruthenian_contacts", "RIP_shared_ruthenian_neighbor_missions", "RIP_LIT_reckoning")
 
@@ -137,8 +145,9 @@ def twin_problems() -> list[str]:
         except KeyError as missing:
             problems.append(f"{filename}: series {missing} not found")
             continue
-        # the twin's own series name carries the suffix; only the series header differs
-        main_body = normalised(main_block, None).split("{", 1)[1]
+        # the twin's own series name carries the suffix; only the series header differs. A main series may name
+        # its twin (a reward guard), so the suffix is stripped on both sides.
+        main_body = normalised(main_block, suffix).split("{", 1)[1]
         twin_body = normalised(twin_block, suffix).split("{", 1)[1]
         if main_body != twin_body:
             problems.append(f"{twin} has drifted from {main}: the two must differ only in keys, rows, the first parent and the potential")

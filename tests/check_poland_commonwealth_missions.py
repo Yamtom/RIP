@@ -102,9 +102,14 @@ def check_load_order(failures: list[str]) -> None:
 
 def check_series(failures: list[str]) -> None:
     text = read(f"missions/{REWORK}")
-    series = [block for _, block in keyed_blocks(text, "POL_re_missions_1")]
-    series += [block for _, block in keyed_blocks(text, "POL_re_missions_2")]
-    require(failures, len(series) == 2, "POL_re_missions_1 and _2 must both exist")
+    series = [named_block(text, f"POL_re_missions_{slot}") for slot in range(1, 5)]
+    opening = named_block(text, "rip_pol_carpathian_passes")
+    for parent in ("pol_moldavia", "annex_mazovia"):
+        require(failures, f"mission_completed = {parent}" in opening, f"Missing native opening {parent}")
+    for key, parent in (("pol_restore_sejm_discipline", "rip_pol_carpathian_passes"),
+                        ("pol_secure_grain_trade", "rip_pol_lviv_charters")):
+        require(failures, parent in named_block(named_block(text, key), "required_missions"),
+                f"{key} must follow {parent}")
     for block in series:
         name = re.search(r"POL_re_missions_\d", block).group(0)
         require(failures, re.search(r"(?m)^\tgeneric = no\s*$", block) is not None,

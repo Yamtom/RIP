@@ -42,7 +42,7 @@ EXPECTED_MISSIONS = {
     "rip_lit_volok_survey_classic": ("rip_lit_volok_missions_classic", 3, 1),
     "rip_tur_podillian_eyalet": ("rip_tur_ruthenian_missions", 1, 14),
     "rip_tur_podillian_eyalet_classic": ("rip_tur_ruthenian_missions_classic", 1, 8),
-    "rip_pol_ruthenian_palatinates": ("rip_pol_ruthenian_missions", 5, 13),
+    "rip_pol_ruthenian_palatinates": ("rip_pol_ruthenian_missions", 5, 15),
 }
 # Their title and description live in the reckoning file, not in the neighbour one.
 RECKONING_MISSIONS = {"rip_lit_kyiv_succession", "rip_lit_kyiv_succession_classic",
@@ -140,16 +140,19 @@ def check_neighbor_missions() -> None:
     pol_pot = named_block(named_block(neighbor_missions, "rip_pol_ruthenian_missions"), "potential")
     assert "tag = POL" in pol_pot and "tag = PLC" in pol_pot and "has_dlc" not in pol_pot
 
+    palatinates = named_block(neighbor_missions, "rip_pol_ruthenian_palatinates")
+    assert "rip_pol_lviv_charters" in named_block(palatinates, "required_missions")
+
     # Check non-collision against RIP's existing Poland/Contacts/Diaspora trees.
     pol_re = parse_series_cells(read("missions/zzz_Poland_Commonwealth_Rework.txt"))
     contacts = parse_series_cells(read("missions/zzz_Ruthenian_Contacts.txt"))
     rip_pol_cells = {(slot, pos) for _, slot, _, ms in pol_re + contacts if True for _, pos in ms}
-    assert (5, 13) not in rip_pol_cells
+    assert (5, 15) not in rip_pol_cells
 
     if vanilla_root() is not None:
         # Poland still sits in the free cell of column 5; the tied series are checked by tests/check_mission_ties.py.
         checks = [
-            ("POL", 5, {13}, ("Polish_Missions.txt", "SCA_Polish_Missions.txt")),
+            ("POL", 5, {15}, ("Polish_Missions.txt", "SCA_Polish_Missions.txt")),
         ]
         for label, target_slot, our_rows, files in checks:
             occupied = set()

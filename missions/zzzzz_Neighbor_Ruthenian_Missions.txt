@@ -7,7 +7,7 @@
 # row 4); the Ottomans of Domination (column 1 of DOM_Ottoman_Missions.txt, ending on
 # tur_embrace_the_military_doctrines, row 13) or the older tree that TUR without Domination and RUM use (column 1
 # ending on conquer_hungary, row 7). The *_classic series are copies with their own keys, because a mission key
-# cannot repeat; tests/check_ruthenian_mission_series.py checks that the copies stay identical.
+# cannot repeat; tests/check_mission_ties.py checks that the copies stay identical.
 # Column 1 of Lithuania also carries the Kyiv succession (rip_lit_kyiv_succession, under the princes of Rus) and column 3 the
 # Volok survey (rip_lit_volok_survey, under lit_build_manufactories; a root of the free column 3 in the older tree). Both open the
 # events of events/RIP_LIT_Reckoning.txt.
@@ -528,8 +528,8 @@ rip_pol_ruthenian_missions = {
 
 	rip_pol_ruthenian_palatinates = {
 		icon = mission_early_game_buildings
-		required_missions = { }
-		position = 13
+		required_missions = { rip_pol_lviv_charters }
+		position = 15
 		provinces_to_highlight = {
 			OR = {
 				area = red_ruthenia_area

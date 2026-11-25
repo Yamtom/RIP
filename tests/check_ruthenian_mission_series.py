@@ -12,8 +12,9 @@ The first two live in the mod's own full-file overrides. The last two cannot: th
 the Tatar and Austrian trees, so they are series in a `zzzz_` file that loads after every vanilla file
 of their column (the engine stacks series in file order and `position` is only a minimum, see
 docs/RUTHENIAN_CONTACT_MISSIONS_20261124.uk.md). The Tatar series hang from the last mission of the vanilla
-column of their variant; the Austrian one still has no prerequisite. tests/check_mission_ties.py proves the
-rows against the real vanilla columns and that the *_classic copies match their main series.
+column of their variant; the Austrian ones follow hab_shift_in_balance (Winds of Change) or conquer_transylvania
+(the older tree). tests/check_mission_ties.py proves the rows against the real vanilla columns and that the
+copies match their main series.
 
 Static only. Without an installed EU4 1.37.x the load-order proof falls back to the file names
 recorded below; with it, every vanilla series that could share the column is read.
@@ -39,6 +40,7 @@ MISSION_KEYS = {
     "rip_rus_kyiv_metropolia": ("localisation/RIP_MOS_RUS_realm_l_english.yml", "replace"),
     "tr_rip_ruthenian_charters": ("localisation/RIP_MOS_RUS_realm_l_english.yml", "replace"),
     "rip_tat_ruthenian_yarlyks": ("localisation/RIP_shared_ruthenian_contacts_l_english.yml", "contacts"),
+    "rip_hab_galician_ruthenians_classic": ("localisation/RIP_shared_ruthenian_contacts_l_english.yml", "contacts"),
     "rip_hab_galician_ruthenians": ("localisation/RIP_shared_ruthenian_contacts_l_english.yml", "contacts"),
 }
 MODIFIERS = {
@@ -136,7 +138,10 @@ def new_file_problems(text: str, files: dict[str, str], known: tuple[str, ...]) 
                                          "tatars_intercontinental_trade", TATAR_TAGS, TAG_HELPERS, True),
         "rip_horde_ruthenian_contacts_classic": ({"rip_tat_ruthenian_yarlyks_classic": 5, "rip_tatar_dnieper_tribute_classic": 6},
                                                  "tatar_yoke_mission", TATAR_TAGS, TAG_HELPERS, False),
-        "rip_austrian_ruthenian_contacts": ({"rip_hab_galician_ruthenians": 13}, "", ("HAB", "AUH"), (), True),
+        "rip_austrian_ruthenian_contacts": ({"rip_hab_galician_ruthenians": 13}, "hab_shift_in_balance",
+                                            ("HAB", "AUH"), (), True),
+        "rip_austrian_ruthenian_contacts_classic": ({"rip_hab_galician_ruthenians_classic": 13}, "conquer_transylvania",
+                                                    ("HAB",), (), True),
     }
     if set(series) != set(expected):
         problems.append(f"expected series {sorted(expected)}, found {sorted(series)}")
@@ -162,6 +167,10 @@ def new_file_problems(text: str, files: dict[str, str], known: tuple[str, ...]) 
             if "rip_diaspora_eligible_culture" not in body:
                 problems.append(f"{mission}: no Ruthenian culture gate")
             previous = mission
+        if name.startswith("rip_austrian"):
+            dlc = 'has_dlc = "Winds of Change"'
+            if dlc not in potential or (f"NOT = {{ {dlc} }}" in potential) != name.endswith("_classic"):
+                problems.append(f"{name}: DLC eligibility must match its parent")
         if "map_setup = map_setup_random" not in potential:
             problems.append(f"{name}: potential must keep NOT map_setup_random")
         top = tallest_row(files, NEW_FILE, tags, helpers)
@@ -254,8 +263,8 @@ def self_test(new_text: str, dom_text: str, files: dict[str, str]) -> list[str]:
            else ["not measurable without vanilla"])
     expect("Tatar chain loses its parent", new_file_problems(
         new_text.replace("required_missions = { tatars_intercontinental_trade }", "required_missions = { }", 1), files, KNOWN_COLUMN_FILES))
-    expect("Austrian mission gains a prerequisite", new_file_problems(
-        new_text.replace("required_missions = { }", "required_missions = { tatars_russian_yoke }", 1), files, KNOWN_COLUMN_FILES))
+    expect("Austrian mission loses its parent", new_file_problems(
+        new_text.replace("required_missions = { hab_shift_in_balance }", "required_missions = { }", 1), files, KNOWN_COLUMN_FILES))
     expect("culture gate removed", new_file_problems(
         new_text.replace("rip_diaspora_eligible_culture_province = yes", "development = 1"), files, KNOWN_COLUMN_FILES))
     expect("HAB gate lost", new_file_problems(new_text.replace("tag = HAB", "tag = BOH", 1), files, KNOWN_COLUMN_FILES))
