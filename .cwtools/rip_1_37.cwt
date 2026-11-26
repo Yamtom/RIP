@@ -51,6 +51,13 @@ enums = {
         zaz_lean_sacred_order
         zaz_lean_sacred_horde
     }
+    complex_enum[country_tags] = {
+        path = "game/common/country_tags"
+        name = {
+            enum_name = scalar
+        }
+        start_from_root = yes
+    }
 }
 ## scope = country
 alias[trigger:has_country_flag] = enum[rip_inherited_vanilla_country_flags]
@@ -100,3 +107,26 @@ alias[trigger:rip_watch_unsettled_province] = bool
 alias[effect:uzh_captaincy_clear_effect] = bool
 ## scope = country
 alias[effect:uzh_captaincy_sweep_effect] = bool
+
+# Index vanilla/mod province IDs so [280.GetName] etc. resolve in localisation (EU4Game.fs).
+types = {
+    type[province_id] = {
+        path = "game/map"
+        path_file = "positions.txt"
+    }
+}
+
+province_id = {
+    position = {
+        ## cardinality = 14..14
+        float
+    }
+    rotation = {
+        ## cardinality = 7..7
+        float
+    }
+    height = {
+        ## cardinality = 7..7
+        float
+    }
+}

@@ -1,0 +1,240 @@
+# Standard EU4 1.37 localisation commands and links, plus mod event-target links.
+# Required when .cwtools/ overrides embedded CWTools rules so native commands like
+# GetAdjective and GetParliamentName remain known alongside RIP custom targets.
+
+localisation_commands = {
+	GetAdjective = country
+	GetAdjectiveCap = country
+	GetAdm = monarch
+	GetAreaName = province
+	GetRegionName = province
+	GetSuperRegionName = province
+	GetContinentName = province
+	GetColonialRegionName = province
+	GetTradeNodeName = province
+	GetArmyName = rebel_faction
+	GetCapitalName = province
+	GetCountryModifiers = religion
+	GetCult = country
+	GetCultureGroupName = Variable
+	GetCultureName = Variable
+	GetDate = any
+	GetDateText = any
+	GetDaughterSon = { monarch heir consort advisor }
+	GetDip = monarch
+	GetFlagshipName = country
+	GetGroupName = { religion culture }
+	GetHerHim = { monarch heir consort advisor leader }
+	GetHerHimCap = { monarch heir consort advisor leader }
+	GetHerHis = { monarch heir consort advisor leader }
+	GetHerHisCap = { monarch heir consort advisor leader }
+	GetHerselfHimself = { monarch heir consort advisor leader }
+	GetHerselfHimselfCap = { monarch heir consort advisor leader }
+	GetHersHis = { monarch heir consort advisor leader }
+	GetHersHisCap = { monarch heir consort advisor leader }
+	GetLeaderName = rebel_faction
+	GetLostFlagshipName = country
+	GetMil = monarch
+	GetMonth = any
+	GetMotherFather = { monarch heir consort advisor }
+	GetName = any
+	GetName = Variable
+	GetProvinceModifiers = religion
+	GetRandomShipName = country
+	GetRegion = { trade_company }
+	GetReligionGroupName = Variable
+	GetReligionName = Variable
+	GetReligiousSchool = country
+	GetReligiousSchoolCountryModifiers = country
+	GetSheHe = { monarch heir consort advisor leader }
+	GetSheHeCap = { monarch heir consort advisor leader }
+	GetSisterBrother = { monarch heir consort advisor }
+	GetStats = { monarch advisor }
+	GetTag = country
+	GetTitle = { monarch heir consort advisor }
+	GetTradeGoodsName = province
+	GetValue = any
+	GetValue = variable
+	GetWifeHusband = { monarch heir consort advisor }
+	GetWomanMan = { monarch heir consort advisor leader }
+	GetYear = any
+	GovernmentName = country
+	GetVaishyasName = country
+	GetJainsName = country
+	GetBrahminsName = country
+	GetMarathasName = country
+	GetRajputsName = country
+	GetCossacksName = country
+	GetDhimmiName = country
+	GetTribesName = country
+	GetNobilityName = country
+	GetClergyName = country
+	GetBurghersName = country
+	GetCachedAgendasFlavorText = country
+	GetParliamentName = country
+	GetParliamentWithGrammer = country
+	Leader = unit
+	Location = unit
+	enum[defined_text_commands] = any
+	GetJanissariesName = country
+	GetEunuchsName = country
+	GetQizilbashName = country
+	GetGhilmanName = country
+	OriginalReligion = province
+	NativeCulture = province
+}
+
+localisation_links = {
+	Capital = {
+		input_scopes = { country }
+		output_scope = province
+	}
+	ColonialParent = {
+		input_scopes = { country }
+		output_scope = country
+	}
+	Culture = {
+		input_scopes = { country province rebel_faction }
+		output_scope = culture
+	}
+	Dynasty = {
+		input_scopes = { consort monarch heir }
+		output_scope = any
+	}
+	Heir = {
+		input_scopes = { country }
+		output_scope = heir
+	}
+	Location = {
+		input_scopes = { rebel_faction }
+		output_scope = any
+	}
+	Monarch = {
+		input_scopes = { country }
+		output_scope = monarch
+	}
+	Owner = {
+		input_scopes = { province }
+		output_scope = country
+	}
+	Religion = {
+		input_scopes = { country province rebel_faction }
+		output_scope = religion
+	}
+	SecondaryReligion = {
+		input_scopes = { country }
+		output_scope = religion
+	}
+	TradeCompany = {
+		input_scopes = { country province }
+		output_scope = country
+	}
+	Dip_Advisor = {
+		input_scopes = { country }
+		output_scope = advisor
+	}
+	Adm_Advisor = {
+		input_scopes = { country }
+		output_scope = advisor
+	}
+	Mil_Advisor = {
+		input_scopes = { country }
+		output_scope = advisor
+	}
+	Country = {
+		input_scopes = { country rebel_faction }
+		output_scope = country
+	}
+	Province = {
+		input_scopes = { any }
+		output_scope = province
+	}
+	Overlord = {
+		input_scopes = { country }
+		output_scope = country
+	}
+	Consort = {
+		input_scopes = { country }
+		output_scope = consort
+	}
+	NativeCulture = {
+		input_scopes = { province }
+		output_scope = culture
+	}
+	OriginalReligion = {
+		input_scopes = { province }
+		output_scope = religion
+	}
+	rip_church_gc_controller = {
+		input_scopes = { any }
+		output_scope = country
+	}
+	rip_ob_refuge_site = {
+		input_scopes = { any }
+		output_scope = province
+	}
+	rip_rg_target = {
+		input_scopes = { any }
+		output_scope = province
+	}
+	wr_byelorussian_s1_cnt = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_byelorussian_s1_pct = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_byelorussian_s3_cnt = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_byelorussian_s3_pct = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_byelorussian_total = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_rusyn_s1_cnt = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_rusyn_s1_pct = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_rusyn_s3_cnt = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_rusyn_s3_pct = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_rusyn_total = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_ruthenian_s1_cnt = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_ruthenian_s1_pct = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_ruthenian_s3_cnt = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_ruthenian_s3_pct = {
+		input_scopes = { country }
+		output_scope = any
+	}
+	wr_ruthenian_total = {
+		input_scopes = { country }
+		output_scope = any
+	}
+}
