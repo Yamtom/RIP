@@ -188,6 +188,22 @@ def check_hadiach(failures: list[str]) -> None:
     require(failures, "attacker_leader" not in hadiach_ai,
             "rip_offer_hadiach_terms: ai_will_do must not conflict with peacetime is_allowed")
 
+    dialogue_keys = (
+        "rip_offer_hadiach_terms_dialog",
+        "rip_ask_to_expand_the_register_dialog",
+        "rip_petition_to_confirm_the_register_dialog",
+    )
+    # Scripted action dialogue is read by the recipient. Vanilla's
+    # sell_indulgence_dialog names the sender with [This.GetName].
+    files = ["localisation/RIP_shared_government_councils_l_english.yml"]
+    files.extend(f"localisation/replace/RIP_HET_content_l_{lang}.yml"
+                 for lang in ("french", "german", "spanish"))
+    for path in files:
+        text = read(path)
+        for key in dialogue_keys:
+            require(failures, f'{key}:0 "[This.GetName]' in text,
+                    f"{path}: {key} must name the offer's sender")
+
 
 def check_modifier(failures: list[str]) -> None:
     mods_text = read("common/event_modifiers/RIP_POL_modifiers.txt")
