@@ -20,7 +20,7 @@ country_event = {
 			name = "uz_basilian_monasteries"
 			duration = 7300
 		}
-		rip_faith_mission_resource_effect = { PA = 0.1 PI = 10 ADM = 25 }
+		rip_faith_mission_resource_effect = { PA = 0.1 GC = 0.03 PI = 10 ADM = 25 }
 		add_stability = 1
 	}
 }
@@ -448,8 +448,13 @@ country_event = {
 			}
 			add_papal_influence = 10
 		}
-		else = {
-			add_patriarch_authority = 0.05
+		if = {
+			limit = {
+				NOT = {
+					religion = catholic
+				}
+			}
+			rip_grant_authority_effect = { PA = 0.05 GC = 0.02 }
 		}
 	}
 	option = {
@@ -1467,8 +1472,13 @@ country_event = {
 			}
 			add_papal_influence = 15
 		}
-		else = {
-			add_patriarch_authority = 0.1
+		if = {
+			limit = {
+				NOT = {
+					religion = catholic
+				}
+			}
+			rip_grant_authority_effect = { PA = 0.1 GC = 0.03 }
 		}
 		every_owned_province = {
 			limit = {

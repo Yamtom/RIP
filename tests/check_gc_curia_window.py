@@ -43,14 +43,14 @@ assert 'Papal petitions' not in english
 # Authority and ducats. It is not blocked by Curia interaction state.
 assert 'rip_church_gc_can_infrastructure = yes' in union_effects
 assert 'rip_church_gc_can_coexistence = yes' in union_effects
-assert 'patriarch_authority = 0.2' in named_block(union_triggers, 'rip_church_gc_can_infrastructure')
-assert 'patriarch_authority = 0.2' in named_block(union_triggers, 'rip_church_gc_can_coexistence')
+assert 'patriarch_authority = 0.07' in named_block(union_triggers, 'rip_church_gc_can_infrastructure')
+assert 'patriarch_authority = 0.07' in named_block(union_triggers, 'rip_church_gc_can_coexistence')
 assert 'rip_church_gc_has_curia_petition' not in union_triggers
 
 # The three devotional icons remain a separately gated PA-priced system.
 for key in ('liturgy', 'learning', 'charity'):
     assert f'rip_church_gc_can_activate_icon_{key} = yes' in icon_effects
-    assert 'add_patriarch_authority = -0.2' in named_block(
+    assert 'add_patriarch_authority = -0.07' in named_block(
         icon_effects, f'rip_church_gc_activate_icon_{key}_effect')
     assert f'rip_church_gc_can_activate_icon_{key} = yes' in button(
         features, f'rip_church_gc_icon_{key}_button')

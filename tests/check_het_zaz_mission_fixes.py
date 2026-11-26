@@ -126,7 +126,8 @@ def check_zaz_turkish_other_ally_and_polish_conversion() -> None:
     schools, keep = [normalized(block) for _, block in keyed_blocks(islam, "option")]
     assert "change_religion" not in islam
     assert "treasury = 50" in schools and "add_treasury = -50" in schools
-    assert "prl_brotherhood_schools" in schools and "add_patriarch_authority" in keep
+    assert "prl_brotherhood_schools" in schools
+    assert "rip_grant_authority_effect = { PA = 0.05 GC = 0.02 }" in keep
     different = normalized(named_block(mission(ZAZ, "ZAZ_TUR_different_ally"), "trigger"))
     assert different == "trigger = { any_ally = { NOT = { tag = TUR } NOT = { tag = RUM } } }", different
 

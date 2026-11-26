@@ -33,7 +33,7 @@ for institution in ('infrastructure', 'coexistence'):
     w.run('rip_church_gc_' + institution + '_effect', c)
     expected = [45,50,50,50,50] if institution == 'infrastructure' else [50,55,50,50,50]
     assert [w.provinces[str(n)]['local_autonomy'] for n in range(1,6)] == expected
-    assert abs(c['patriarch_authority'] - (before_pa - .2)) < 1e-9
+    assert abs(c['patriarch_authority'] - (before_pa - .07)) < 1e-9
     assert c['treasury'] == before_cash - (75 if institution == 'infrastructure' else 100)
     opinion = 'rip_church_opinion_synod_' + ('schools' if institution == 'infrastructure' else 'compact')
     recipients = {tag for tag, other in w.countries.items()
@@ -44,7 +44,7 @@ for institution in ('infrastructure', 'coexistence'):
         w.run('rip_church_gc_' + action + '_effect', c)
     assert (w.countries, w.provinces) == before
     c['modifiers'].clear()
-    c['patriarch_authority'] = .19
+    c['patriarch_authority'] = .069
     before = deepcopy((w.countries, w.provinces))
     w.run('rip_church_gc_' + institution + '_effect', c)
     assert (w.countries, w.provinces) == before

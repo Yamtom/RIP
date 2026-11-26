@@ -1,10 +1,22 @@
+# Country scope; amounts match rip_has_parish_action_authority.
+rip_pay_parish_action_authority_effect = {
+	if = {
+		limit = { religion = greek_catholic }
+		add_patriarch_authority = -0.02
+	}
+	if = {
+		limit = { NOT = { religion = greek_catholic } }
+		add_patriarch_authority = -0.05
+	}
+}
+
 # Country transaction. MODIFIER is selected by the two fixed event options.
 rip_fund_parish_visit_effect = {
 	if = {
 		limit = { rip_can_fund_parish_visit = yes }
 		add_treasury = -100
 		add_adm_power = -25
-		add_patriarch_authority = -0.05
+		rip_pay_parish_action_authority_effect = yes
 		add_country_modifier = { name = rip_parish_visit_recent duration = 3650 }
 		random_owned_province = {
 			limit = { rip_parish_visit_target = yes }

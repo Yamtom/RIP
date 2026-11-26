@@ -261,7 +261,7 @@ for trigger, papal in (('rip_hierarchy_standing_low', 40), ('rip_hierarchy_stand
     assert not open_gate(world, c, trigger), (trigger, 'one short of the threshold, bar full')
     CASES += 2
 # Greek Catholic states use the bar and are not helped by a papal value they cannot hold.
-for tier, needed in (('low', .30), ('mid', .35), ('high', .40)):
+for tier, needed in (('low', .10), ('mid', .12), ('high', .13)):
     for combined in (f'rip_hierarchy_standing_{tier}', f'rip_gc_hierarchy_standing_{tier}'):
         world, c = country('greek_catholic', papal_influence=0, patriarch_authority=needed)
         assert open_gate(world, c, combined), (combined, 'at the threshold')
@@ -279,22 +279,22 @@ confirm_allow = dict(hlc_decisions['hlc_confirm_the_metropolitan_see'])['allow']
 union_allow = dict(hlc_decisions['hlc_complete_the_union_of_lviv'])['allow']
 for religion, papal, bar, expected in (
         ('orthodox', 0, .50, True), ('orthodox', 0, .49, False),
-        ('greek_catholic', 0, .35, True), ('greek_catholic', 0, .34, False),
-        ('greek_catholic', 100, .34, False),      # papal 100 is not a key for a Greek Catholic state
+        ('greek_catholic', 0, .12, True), ('greek_catholic', 0, .11, False),
+        ('greek_catholic', 100, .11, False),      # papal 100 is not a key for a Greek Catholic state
         ('catholic', 100, 1, False)):             # a Catholic state never asks for the Halych tomos
     world, c = country(religion, papal_influence=papal, patriarch_authority=bar)
     assert world.gate(confirm_allow, c) is expected, (religion, papal, bar, 'hlc_confirm_the_metropolitan_see')
     CASES += 1
-for bar, expected in ((.40, True), (.39, False)):
+for bar, expected in ((.13, True), (.12, False)):
     world, c = country('greek_catholic', papal_influence=100, patriarch_authority=bar)
     assert world.gate(union_allow, c) is expected, (bar, 'hlc_complete_the_union_of_lviv')
     CASES += 1
 # The UZH chapters: Catholic on papal influence, Greek Catholic on the bar.
 for religion, papal, bar, translate_open, split_open in (
-        ('greek_catholic', 0, .30, True, False),
-        ('greek_catholic', 0, .29, False, False),
-        ('greek_catholic', 100, .29, False, False),
-        ('greek_catholic', 0, .40, True, True),
+        ('greek_catholic', 0, .10, True, False),
+        ('greek_catholic', 0, .09, False, False),
+        ('greek_catholic', 100, .09, False, False),
+        ('greek_catholic', 0, .13, True, True),
         ('catholic', 40, 0, True, False),
         ('catholic', 60, 0, True, True),
         ('catholic', 39, 1, False, False)):
@@ -335,7 +335,7 @@ require('has_country_flag = rip_uc_synod_held' in normalized(named_block(text_of
 
 # ---- executed: refusing the button sets nothing, taking it sets the flag ------
 for effect, needs_rights in (('rip_church_gc_infrastructure_effect', False), ('rip_church_gc_coexistence_effect', True)):
-    for bar, expected in ((.5, True), (.1, False)):
+    for bar, expected in ((.5, True), (.05, False)):
         world, c, province = fixture('greek_catholic')
         c.update(patriarch_authority=bar, treasury=500, is_at_war=False)
         if needs_rights:
@@ -523,13 +523,13 @@ assert not unguarded_papal_gates('e = { limit = { religion = catholic papal_infl
 
 # Standing triggers: break the shape.
 planted('greek_catholic branch reading papal_influence in the standing trigger',
-        standing_errors(swap(standing, 'patriarch_authority = 0.30', 'papal_influence = 30'), hlc, uzh_triggers, loc),
+        standing_errors(swap(standing, 'patriarch_authority = 0.10', 'papal_influence = 30'), hlc, uzh_triggers, loc),
         'must read patriarch_authority')
 planted('a threshold above the Orthodox gate',
-        standing_errors(swap(standing, 'patriarch_authority = 0.40', 'patriarch_authority = 0.60'), hlc, uzh_triggers, loc),
+        standing_errors(swap(standing, 'patriarch_authority = 0.13', 'patriarch_authority = 0.60'), hlc, uzh_triggers, loc),
         'harder than the Orthodox one')
 planted('thresholds out of order',
-        standing_errors(swap(standing, 'patriarch_authority = 0.35', 'patriarch_authority = 0.25'), hlc, uzh_triggers, loc),
+        standing_errors(swap(standing, 'patriarch_authority = 0.12', 'patriarch_authority = 0.05'), hlc, uzh_triggers, loc),
         'papal ordering')
 planted('decision no longer calling the standing trigger',
         standing_errors(standing, swap(hlc, 'rip_gc_hierarchy_standing_high = yes', 'always = yes'), uzh_triggers, loc),
@@ -555,11 +555,11 @@ planted('rip_vol_synod_held removed',
         one_shot_errors(vol_now.replace('set_country_flag = rip_vol_synod_held', 'set_country_flag = rip_vol_other'), gal_now),
         'rip_vol_synod_held')
 planted('papal influence back in rip_vol_alt_history.3.b',
-        one_shot_errors(swap(vol_now, 'rip_faith_mission_resource_effect = { PA = 0.1 PI = 25 ADM = 25 }',
+        one_shot_errors(swap(vol_now, 'rip_faith_mission_resource_effect = { PA = 0.1 GC = 0.03 PI = 25 ADM = 25 }',
                              'add_papal_influence = 25'), gal_now),
         'papal influence')
 planted('papal influence back in rip_galicia.2.a',
-        one_shot_errors(vol_now, swap(gal_now, 'rip_faith_mission_resource_effect = { PA = 0.25 PI = 25 ADM = 25 }',
+        one_shot_errors(vol_now, swap(gal_now, 'rip_faith_mission_resource_effect = { PA = 0.25 GC = 0.08 PI = 25 ADM = 25 }',
                                       'add_papal_influence = 25')),
         'papal influence')
 planted('rip_galicia_synod_held removed',
