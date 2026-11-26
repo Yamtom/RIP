@@ -258,6 +258,138 @@ def horde_pause_gaps(text: str) -> list[str]:
     return gaps
 
 
+RAID_REWARD_FILES = (
+    "events/RIP_shared_steppe_RaidMechanics.txt",
+    "events/RIP_shared_steppe_SteppeRaiding.txt",
+    "events/RIP_HET_HetmanateCossackRaids.txt",
+    "common/scripted_effects/zaz_mechanics_effects.txt",
+)
+FLAT_REWARD = re.compile(r"\badd_treasury\s*=\s*[0-9]")
+
+
+def check_raid_money_scales(failures: list[str]) -> None:
+    """The design contract: raid money follows income, never flat ducats.
+
+    Costs (negative add_treasury) stay flat. zaz_effects.txt and the Zaporozhian
+    flavour events also pay for other things, so only their raid blocks are read.
+    """
+    blocks = {path: read(path) for path in RAID_REWARD_FILES}
+    effects = read("common/scripted_effects/zaz_effects.txt")
+    for name in ("zaz_successful_raid_effect", "zaz_chaiky_raid_effect"):
+        blocks[name] = named_block(effects, name)
+    flavour = read("events/RIP_ZAZ_ZaporizhiaFlavor.txt")
+    for event_id in ("zaz_flavor.4", "zaz_flavor.10", "zaz_flavor.11"):
+        blocks[event_id] = event_block(flavour, event_id)
+    for name, block in blocks.items():
+        require(failures, FLAT_REWARD.search(block) is None,
+                f"{name}: raid reward pays flat ducats instead of a share of income")
+    planted = blocks["events/RIP_shared_steppe_RaidMechanics.txt"] + "\n\tadd_treasury = 300\n"
+    require(failures, FLAT_REWARD.search(planted) is not None,
+            "flat raid reward check misses a planted payout")
+
+
+THREAT_VICTIMS = {
+    # event id -> option that is a raid getting through; True: a province is hit
+    "events/RIP_shared_steppe_RaidMechanics.txt": {
+        ("raid_mechanics.21", "raid_mechanics.21.a"): True,
+        ("raid_mechanics.50", "raid_mechanics.50.a"): True,
+        ("raid_mechanics.52", "raid_mechanics.52.a"): True,
+        ("raid_mechanics.53", "raid_mechanics.53.a"): True,
+    },
+    "events/RIP_shared_steppe_SteppeRaiding.txt": {
+        ("steppe_raid.2", "steppe_raid.2.b"): True,
+        ("steppe_raid.7", "steppe_raid.7.a"): True,
+        ("steppe_raid.12", "steppe_raid.12.b"): True,
+        ("steppe_raid.15", "steppe_raid.15.b"): True,
+    },
+    "events/RIP_HET_HetmanateCossackRaids.txt": {
+        ("het_cossack_raids.2", "het_cossack_raids.2.a"): False,
+        ("het_cossack_raids.2", "het_cossack_raids.2.b"): False,
+        ("het_cossack_raids.3", "het_cossack_raids.3.a"): True,
+    },
+}
+THREAT_DEFENCES = {
+    ("raid_mechanics.1", "raid_mechanics.1.c"): "rip_raid_threat_ease_effect",
+    ("raid_mechanics.51", "raid_mechanics.51.a"): "rip_raid_threat_ease_effect",
+    ("raid_mechanics.60", "raid_mechanics.60.a"): "rip_raid_threat_fortify_effect",
+    ("raid_mechanics.60", "raid_mechanics.60.b"): "rip_raid_threat_ease_effect",
+}
+
+
+def raid_option(text: str, event_id: str, name: str) -> str:
+    return next(block for _, block in keyed_blocks(event_block(text, event_id), "option")
+                if scalar(block, "name") == name)
+
+
+def threat_hook_gaps(text: str, options: dict[tuple[str, str], bool]) -> list[str]:
+    gaps = []
+    for (event_id, name), hits_province in options.items():
+        body = normalized(raid_option(text, event_id, name))
+        raised = body.find("rip_raid_threat_raise_effect = yes")
+        if raised < 0:
+            gaps.append(f"{name}: threat does not rise")
+        scarred = body.find("rip_raid_threat_scar_effect = yes")
+        if hits_province and not 0 <= scarred < raised:
+            gaps.append(f"{name}: the raided province is not scarred before the rise")
+    return gaps
+
+
+def check_raid_threat(failures: list[str]) -> None:
+    for path, options in THREAT_VICTIMS.items():
+        text = read(path)
+        for gap in threat_hook_gaps(text, options):
+            require(failures, False, gap)
+        planted = text.replace("rip_raid_threat_raise_effect = yes", "planted = yes")
+        require(failures, len(threat_hook_gaps(planted, options)) >= len(options),
+                f"{path}: threat check misses a raid that never raises the threat")
+
+    mechanics = read("events/RIP_shared_steppe_RaidMechanics.txt")
+    for (event_id, name), effect in THREAT_DEFENCES.items():
+        require(failures, f"{effect} = yes" in raid_option(mechanics, event_id, name),
+                f"{name}: defence investment does not lower the threat")
+
+    effects = read("common/scripted_effects/rip_raid_threat_effects.txt")
+    triggers = read("common/scripted_triggers/rip_raid_threat_triggers.txt")
+    names = re.findall(r"(?m)^(rip_raid_\w+)\s*=\s*\{", effects + "\n" + triggers)
+    require(failures, len(names) == len(set(names)),
+            f"raid threat: definitions repeated: {sorted(n for n in set(names) if names.count(n) > 1)}")
+    require(failures, not re.search(r"\belse(_if)?\s*=", normalized(effects)),
+            "raid threat effects must use separate if blocks (else drops effects in 1.37.5)")
+    scar = normalized(named_block(effects, "rip_raid_threat_scar_effect"))
+    require(failures, scar.count("NOT = { rip_raid_province_is_guarded = yes }") == 3,
+            "raid threat: a guarded province must not take the extra devastation")
+    for tier, damage in (("low", 3), ("medium", 6), ("high", 10)):
+        require(failures,
+                f"owner = {{ has_country_modifier = rip_raid_threat_{tier} }} }} add_devastation = {damage}"
+                in scar, f"raid threat: {tier} tier damage differs from the documented {damage}")
+    refresh = normalized(named_block(effects, "rip_raid_threat_refresh_effect"))
+    require(failures, "set_variable = { which = rip_raid_threat value = 6 }" in refresh,
+            "raid threat is not capped at 6")
+    for tier in ("low", "medium", "high"):
+        require(failures,
+                f"remove_country_modifier = rip_raid_threat_{tier}" in refresh
+                and f"add_country_modifier = {{ name = rip_raid_threat_{tier} duration = -1 }}" in refresh,
+                f"raid threat: tier modifier {tier} is not refreshed")
+        require(failures, re.search(rf"(?m)^rip_raid_threat_{tier}\s*=\s*\{{",
+                                    read("common/event_modifiers/rip_raid_threat_modifiers.txt")),
+                f"raid threat: modifier {tier} is not defined")
+    yearly = normalized(named_block(effects, "rip_raid_threat_yearly_effect"))
+    require(failures, "limit = { has_country_flag = rip_raid_threat_tracked }" in yearly
+            and yearly.count("subtract_variable = { which = rip_raid_threat value = 1 }") == 3,
+            "raid threat: yearly decay must be 1, plus patrols, plus a frontier fort")
+    require(failures, "rip_raid_threat_yearly_effect = yes" in named_block(
+        read("common/on_actions/RIP_shared_raid_threat_on_actions.txt"), "on_yearly_pulse"),
+        "raid threat: yearly decay is never called")
+
+    english = read("localisation/RIP_shared_steppe_raids_l_english.yml")
+    for key in ("rip_raid_threat_low", "rip_raid_threat_medium", "rip_raid_threat_high"):
+        require(failures, f" {key}:" in english and f" desc_{key}:" in english,
+                f"raid threat: missing English text for {key}")
+    for key in ("raise", "ease", "fortify"):
+        require(failures, f" rip_raid_threat_{key}_tt:" in english,
+                f"raid threat: missing tooltip for {key}")
+
+
 def check_het_raid_spoils(failures: list[str]) -> None:
     """One launched Hetmanate raid must settle its spoils exactly once."""
     text = read("events/RIP_HET_HetmanateCossackRaids.txt")
@@ -352,6 +484,8 @@ def main() -> int:
     check_new_chains(failures)
     check_helpers_and_callers(failures)
     check_raid_season_pause(failures)
+    check_raid_money_scales(failures)
+    check_raid_threat(failures)
     check_het_raid_spoils(failures)
     check_policy_and_cooldowns(failures)
     check_localisation_and_docs(failures)
