@@ -72,14 +72,14 @@ assert "tooltip = rip_church_authority_heading_tt" in gc_heading_binding
 
 help_text = (
     "local Eastern hierarchy (0–100)",
-    "+7.5 HC per year (+0.625 per month)",
+    "+2.5 HC per year (about +0.208 per month)",
     "Country-specific decisions, events and mission rewards",
     "Liturgy grants +1 yearly prestige",
     "Learning grants -5% development cost and -5% technology cost",
     "Almsgiving grants -1 global unrest and -10% stability cost",
-    "20 HC plus 75 ducats for Infrastructure",
-    "20 HC plus 100 ducats for Coexistence",
-    "A parish visit costs 5 HC, 100 ducats and 25 ADM",
+    "7 HC plus 75 ducats for Infrastructure",
+    "7 HC plus 100 ducats for Coexistence",
+    "A parish visit costs 2 HC, 100 ducats and 25 ADM",
     "five-point bands",
     "At 100 HC the net country effects are 0% global missionary strength and 0% church influence",
     "owned Greek Catholic provinces have -0.375 local unrest and 0% local manpower",
@@ -120,7 +120,7 @@ assert "always = no" in named_block(gates, "rip_church_gc_eastern")
 assert "always = no" in named_block(gates, "rip_church_gc_roman")
 faith = named_block(read("common/religions/zz_greek_catholic.txt"), "greek_catholic")
 yearly = values(named_block(faith, "country"))["yearly_patriarch_authority"] * 100
-assert yearly == Decimal("7.5") and yearly / 12 == Decimal("0.625")
+assert yearly == Decimal("2.5") and (yearly / 12).quantize(Decimal("0.001")) == Decimal("0.208")
 
 custom = read_custom_localization('church')
 capacity = next(
@@ -170,10 +170,10 @@ for language in ("english", "french", "german", "spanish"):
         assert "Native bonuses" not in tooltip and "correction band" not in tooltip
         assert "Whole capacity points shown; province effects apply to owned Greek Catholic provinces" in tooltip
         assert len(tooltip) < 850, "HC hover should stay concise; individual bonus tooltips explain effects"
-        assert "Icon: §Y20 HC§! · §Y5 years§!" in tooltip
-        assert "Synod: §Y20 HC + 75 / 100 ducats§! · §Y10 years§!" in tooltip
-        assert "Parish visit: §Y5 HC + 100 ducats + 25 ADM§! · §Y10 years§!" in tooltip
-        assert "+7.5 HC per year (+0.625 per month)" in tooltip
+        assert "Icon: §Y7 HC§! · §Y5 years§!" in tooltip
+        assert "Synod: §Y7 HC + 75 / 100 ducats§! · §Y10 years§!" in tooltip
+        assert "Parish visit: §Y2 HC + 100 ducats + 25 ADM§! · §Y10 years§!" in tooltip
+        assert "+2.5 HC per year (about +0.208 per month)" in tooltip
         assert "Country modifiers affect growth" in tooltip
     if language == "english":
         tooltip_labels = labels

@@ -1073,9 +1073,9 @@ DATA.update({
     'rip_church_gui_slot_free_tt': 'Local synod institution: §G0 / 1§!',
     'rip_church_gui_slot_used_tt': 'Local synod institution: §Y1 / 1§!',
     'rip_church_gc_infrastructure_button_tt':
-        'Costs 20 Patriarch Authority and 75 ducats. For ten years: -10% state maintenance and +5% clergy loyalty equilibrium. Immediately lowers autonomy by 5 in controlled Greek Catholic core cities. Peaceful Greek Catholic neighbours gain +10 opinion of us for ten years.',
+        'Costs 7 Patriarch Authority and 75 ducats. For ten years: -10% state maintenance and +5% clergy loyalty equilibrium. Immediately lowers autonomy by 5 in controlled Greek Catholic core cities. Peaceful Greek Catholic neighbours gain +10 opinion of us for ten years.',
     'rip_church_gc_coexistence_button_tt':
-        'Costs 20 Patriarch Authority and 100 ducats; requires a controlled Orthodox, Russian Orthodox or Catholic city with guaranteed community rights. Immediately grants +5 autonomy to each such community. For ten years: -0.5 national unrest, +10% improve relations and +15 opinion of us from peaceful Christian neighbours which do not oppose the Union.',
+        'Costs 7 Patriarch Authority and 100 ducats; requires a controlled Orthodox, Russian Orthodox or Catholic city with guaranteed community rights. Immediately grants +5 autonomy to each such community. For ten years: -0.5 national unrest, +10% improve relations and +15 opinion of us from peaceful Christian neighbours which do not oppose the Union.',
     'rip_church_gc_pope_shield_tt':
         'The Catholic Papal State. Click to open its country view. Opinion of us: [Root.GetChurchPapalOpinion].',
     'rip_church_gc_curia_note':
@@ -1285,7 +1285,7 @@ for key,label in (('liturgy','Liturgy'),('learning','Learning'),('charity','Alms
  ui_readout('GetChurchDevotional'+key.title(),[
   (f'has_country_modifier = rip_church_gc_icon_{key}',label+'\\n§GActive§!'),
   ('rip_church_gc_has_active_icon = yes',label+'\\n§RAnother icon active§!'),
-  ('NOT = { patriarch_authority = 0.2 }',label+'\\n§RRequires 20 PA§!'),
+  ('NOT = { patriarch_authority = 0.07 }',label+'\\n§RRequires 7 PA§!'),
   ('always = yes',label+'\\n§YAvailable§!')])
  DATA['rip_church_gc_icon_'+key+'_state']='[Root.GetChurchDevotional'+key.title()+']'
  DATA['rip_church_gc_icon_'+key+'_state_tt']=DATA['rip_church_gc_icon_'+key+'_button_tt']
@@ -1293,12 +1293,12 @@ DATA['rip_church_gui_ecumenism_reason_tt']='[Root.GetChurchEcumenismReason]\\n'+
 # PA is reused as a local administrative resource, not universal UGCC authority.
 GC_CAPACITY_HELP=('Hierarchical Capacity (HC) measures the administrative strength of our local Eastern hierarchy (0–100), '
  'distinct from papal standing or a single unified patriarchate. '
- 'Recurring gain: +7.5 HC per year (+0.625 per month) from the Greek Catholic state religion. Country-specific decisions, events and mission rewards may also change the reserve. '
- 'One devotional icon at a time costs 20 HC and lasts five years: Liturgy grants +1 yearly prestige, +1 diplomatic reputation '
+ 'Recurring gain: +2.5 HC per year (about +0.208 per month) from the Greek Catholic state religion. Country-specific decisions, events and mission rewards may also change the reserve. '
+ 'One devotional icon at a time costs 7 HC and lasts five years: Liturgy grants +1 yearly prestige, +1 diplomatic reputation '
  'and +20% improve relations; Learning grants -5% development cost and -5% technology cost; Almsgiving grants -1 global unrest and -10% stability cost. '
- 'A local synod lasts ten years and costs 20 HC plus 75 ducats for Infrastructure (-10% state maintenance, +5% church loyalty and -5% local autonomy in owned Greek Catholic core cities), '
- 'or 20 HC plus 100 ducats for Coexistence (-0.5 global unrest, +10% improve relations and +5% local autonomy in recognized non-Greek-Catholic communities). '
- 'A parish visit costs 5 HC, 100 ducats and 25 ADM, once per ten years: choose +1% local missionary strength or -1 local unrest in one eligible province; either choice also gives -5% local tax for ten years. '
+ 'A local synod lasts ten years and costs 7 HC plus 75 ducats for Infrastructure (-10% state maintenance, +5% church loyalty and -5% local autonomy in owned Greek Catholic core cities), '
+ 'or 7 HC plus 100 ducats for Coexistence (-0.5 global unrest, +10% improve relations and +5% local autonomy in recognized non-Greek-Catholic communities). '
+ 'A parish visit costs 2 HC, 100 ducats and 25 ADM, once per ten years: choose +1% local missionary strength or -1 local unrest in one eligible province; either choice also gives -5% local tax for ten years. '
  'The effects of Hierarchical Capacity change in five-point bands. At 100 HC the net country effects are 0% global missionary strength and 0% church influence; '
  'owned Greek Catholic provinces have -0.375 local unrest and 0% local manpower. Between those marks the exact bonuses vary slightly. Other decisions show their own HC thresholds and costs.')
 # Native EU4 1.37.5 modifiers multiply the exact authority fraction. The RIP
@@ -1323,9 +1323,9 @@ def hc_display(value,percent=False,inverse=False):
  colour='§W' if not value else ('§G' if (value<0 if inverse else value>0) else '§R')
  return colour+number+('%' if percent else '')+'§!'
 HC_SPENDING=('§YSpend capacity§!\\n'
- 'Icon: §Y20 HC§! · §Y5 years§!\\n'
- 'Synod: §Y20 HC + 75 / 100 ducats§! · §Y10 years§!\\n'
- 'Parish visit: §Y5 HC + 100 ducats + 25 ADM§! · §Y10 years§!')
+ 'Icon: §Y7 HC§! · §Y5 years§!\\n'
+ 'Synod: §Y7 HC + 75 / 100 ducats§! · §Y10 years§!\\n'
+ 'Parish visit: §Y2 HC + 100 ducats + 25 ADM§! · §Y10 years§!')
 hc_tooltip_rows=[]
 for value in range(100,-1,-1):
  fraction=Decimal(value)/100
@@ -1336,7 +1336,7 @@ for value in range(100,-1,-1):
  label=('§YHierarchical Capacity: '+str(value)+'%§!\\n'
   'Capacity of the local Greek Catholic hierarchy; separate from Rome.\\n\\n'
   '§YRecurring gain from the state religion§!\\n'
-  '§G+7.5 HC per year (+0.625 per month)§!\\n'
+  '§G+2.5 HC per year (about +0.208 per month)§!\\n'
   'Country modifiers affect growth; events, decisions and missions can change HC.\\n\\n'
   '§YNet effects at this value§!\\n'
   'Country missionary strength: '+hc_display(net['global_missionary_strength'],percent=True)+'\\n'
@@ -1355,7 +1355,7 @@ for key,value in list(DATA.items()):
   DATA[key]=re.sub(r'\bPA\b','HC',value.replace('Patriarchal Authority','Hierarchical Capacity').replace('Patriarch Authority','Hierarchical Capacity'))
 DATA['rip_church_gc_resources']='Hierarchical Capacity: [Root.GetChurchAuthorityReadout]'
 DATA['rip_church_gui_synod_active']='Active: [Root.GetChurchLocalInstitution]'
-DATA['rip_church_gui_synod_active_tt']='Use the Synod button in this card to choose the local institution. Opening the menu is free; an enactment uses the single synod slot for ten years.\\nInfrastructure costs 20 HC and 75 ducats; Coexistence costs 20 HC and 100 ducats and requires a protected community. An active institution cannot be replaced.'
+DATA['rip_church_gui_synod_active_tt']='Use the Synod button in this card to choose the local institution. Opening the menu is free; an enactment uses the single synod slot for ten years.\\nInfrastructure costs 7 HC and 75 ducats; Coexistence costs 7 HC and 100 ducats and requires a protected community. An active institution cannot be replaced.'
 DATA['rip_church_gc_native_privileges_button_tt']=DATA['rip_church_gui_synod_active_tt']
 DATA['rip_church_rite_badge_yes']='§GCommunity rights guaranteed§!'
 DATA['rip_church_rite_badge_no']='§YCommunity rights not guaranteed§!'
@@ -1474,7 +1474,7 @@ UX_COPY={
  'rip_church_gui_slot_state_tt': 'One synod institution at a time, lasting 10 years. Opening the menu is free.',
  'rip_church_gui_synod_active_tt': 'The institution now in force. It lasts 10 years and cannot be replaced early.',
  'rip_church_gc_native_privileges_button': 'Convene a synod',
- 'rip_church_gc_native_privileges_button_tt': 'Choose an institution for our hierarchy. Opening the menu is free; enacting one lasts 10 years.\\n§YEastern infrastructure§!: §Y20 HC§! and §Y75 ducats§!\\n§YCoexistence§!: §Y20 HC§! and §Y100 ducats§!; needs a province with guaranteed rights',
+ 'rip_church_gc_native_privileges_button_tt': 'Choose an institution for our hierarchy. Opening the menu is free; enacting one lasts 10 years.\\n§YEastern infrastructure§!: §Y7 HC§! and §Y75 ducats§!\\n§YCoexistence§!: §Y7 HC§! and §Y100 ducats§!; needs a province with guaranteed rights',
  'rip_church_gui_policy_done': '§GConcluded§!',
  'rip_church_gui_ecumenism': 'Conclude settlement',
  'rip_church_readout_getchurchecumenismreason_0': '§GSettlement concluded§!',
@@ -1486,7 +1486,7 @@ UX_COPY={
  'rip_church_readout_getchurchecumenismreason_9': '§GReady to conclude§!',
  'rip_church_gui_ecumenism_tt': '§YEcumenical settlement§!\\nA limited diplomatic and local administrative settlement between Orthodox and Catholic communities, not a restoration of full ecclesial communion.\\n§YRequires§!\\n20 years in the Union, no forced integration for 10 years, stability +2 and peace.\\nGuaranteed rights in an Orthodox and in a Catholic province.\\nAn Orthodox ally with +100 opinion of us (Muscovite Orthodox does not count).\\n§YEffect§!\\n§Gunrest -3§!, §Rtax -10%§!, §Rlevies -15%§! in every guaranteed province.\\nOrthodox and Catholic states gain +15 mutual opinion; this is diplomatic goodwill only. Russian Orthodox states are excluded.\\nCosts nothing; never withdrawn.',
  'rip_church_gc_icons_title': 'DEVOTIONAL ICONS',
- 'rip_church_gc_icons_note': '§Y20 HC§! each · lasts §Y5 years§! · one at a time',
+ 'rip_church_gc_icons_note': '§Y7 HC§! each · lasts §Y5 years§! · one at a time',
  'rip_church_gc_icons_note_tt': 'An icon cannot be cancelled or replaced until it ends. Hover an icon for its effects.',
  'rip_church_readout_getchurchdevotionalliturgy_1': 'Liturgy\\n§ROne at a time§!',
  'rip_church_readout_getchurchdevotionalliturgy_3': 'Liturgy\\n§GAvailable§!',
@@ -1494,9 +1494,9 @@ UX_COPY={
  'rip_church_readout_getchurchdevotionallearning_3': 'Learning\\n§GAvailable§!',
  'rip_church_readout_getchurchdevotionalcharity_1': 'Almsgiving\\n§ROne at a time§!',
  'rip_church_readout_getchurchdevotionalcharity_3': 'Almsgiving\\n§GAvailable§!',
- 'rip_church_gc_icon_liturgy_button_tt': '§YIcon of the Divine Liturgy§!\\n§G+1 yearly prestige§! · §G+1 diplomatic reputation§! · §G+20% improve relations§!\\nCosts §Y20 HC§! · lasts §Y5 years§!. One icon at a time; it cannot be cancelled.',
- 'rip_church_gc_icon_learning_button_tt': '§YIcon of Eastern Learning§!\\n§G-5% development cost§! · §G-5% technology cost§!\\nCosts §Y20 HC§! · lasts §Y5 years§!. One icon at a time; it cannot be cancelled.',
- 'rip_church_gc_icon_charity_button_tt': '§YIcon of Almsgiving§!\\n§G-1 national unrest§! · §G-10% stability cost§!\\nCosts §Y20 HC§! · lasts §Y5 years§!. One icon at a time; it cannot be cancelled.',
+ 'rip_church_gc_icon_liturgy_button_tt': '§YIcon of the Divine Liturgy§!\\n§G+1 yearly prestige§! · §G+1 diplomatic reputation§! · §G+20% improve relations§!\\nCosts §Y7 HC§! · lasts §Y5 years§!. One icon at a time; it cannot be cancelled.',
+ 'rip_church_gc_icon_learning_button_tt': '§YIcon of Eastern Learning§!\\n§G-5% development cost§! · §G-5% technology cost§!\\nCosts §Y7 HC§! · lasts §Y5 years§!. One icon at a time; it cannot be cancelled.',
+ 'rip_church_gc_icon_charity_button_tt': '§YIcon of Almsgiving§!\\n§G-1 national unrest§! · §G-10% stability cost§!\\nCosts §Y7 HC§! · lasts §Y5 years§!. One icon at a time; it cannot be cancelled.',
  'rip_church_gc_curia_note': 'Papal State\\nOpinion: [Root.GetChurchPapalOpinion]',
  'rip_church_gc_curia_note_tt': 'How the Papal State regards us. Gifts and deputations raise it. Papal opinion and communion with Rome grant no cardinalship, Curia vote, conclave seat or electoral voice.',
  'rip_church_gc_controller_shield_tt': 'The country that won the last papal election and controls the Curia. Click to open its country view.',
@@ -1543,7 +1543,7 @@ UX_COPY={
  'rip_church_rite_panel_show_button_tt': 'Show the Community Rights panel for this province again.',
  'rip_church_rite_panel_hide_button_tt': 'Hide this panel. The Community Rights button in the state window shows it again.',
  'rip_church_gc_window_toggle_tt': 'Show or hide the Union of the Churches window.',
- 'rip_church.6.d': 'Eastern infrastructure costs 20 HC and 75 ducats. A compact of coexistence costs 20 HC and 100 ducats and needs a province with guaranteed rights. Each lasts 10 years and fills the single synod slot. An option is listed only while its conditions are met.',
+ 'rip_church.6.d': 'Eastern infrastructure costs 7 HC and 75 ducats. A compact of coexistence costs 7 HC and 100 ducats and needs a province with guaranteed rights. Each lasts 10 years and fills the single synod slot. An option is listed only while its conditions are met.',
 }
 DATA.update(UX_COPY)
 # derived tooltips that were copied from keys changed above, before this block ran

@@ -233,7 +233,7 @@ country_event = {
 		}
 		rip_ucr_take_the_church_effect = yes
 		set_country_flag = rip_ucr_terms_as_written
-		add_patriarch_authority = 0.25
+		add_patriarch_authority = 0.08
 		country_event = {
 			id = uniate_crown.3
 			days = 21
@@ -264,7 +264,7 @@ country_event = {
 		set_country_flag = rip_ucr_want_legate
 		add_treasury = -200
 		# A second ask is answered, and remembered as a second ask.
-		add_patriarch_authority = 0.15
+		add_patriarch_authority = 0.05
 		add_prestige = -5
 		country_event = {
 			id = uniate_crown.3
@@ -310,7 +310,7 @@ country_event = {
 		}
 		set_country_flag = rip_ucr_metropolitan_kept
 		add_legitimacy = 5
-		add_patriarch_authority = 0.05
+		add_patriarch_authority = 0.02
 		rip_estate_mood_effect = {
 			ESTATE = estate_church
 			LOYALTY = -10
@@ -767,7 +767,7 @@ country_event = {
 		add_treasury = -200
 		# the engine caps patriarch authority at 1.0 by itself, so the old
 		# manual clamp on rip_uc_standing goes with the counter
-		add_patriarch_authority = 0.25
+		rip_grant_authority_effect = { PA = 0.25 GC = 0.08 }
 		if = {
 			limit = {
 				has_country_flag = rip_ucr_want_title
@@ -980,7 +980,7 @@ country_event = {
 			duration = 7300
 		}
 		set_country_flag = rip_uc_synod_held
-		add_patriarch_authority = 0.2
+		add_patriarch_authority = 0.07
 		add_absolutism = -10
 		rip_estate_mood_effect = {
 			ESTATE = estate_church

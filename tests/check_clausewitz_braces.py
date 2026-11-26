@@ -54,12 +54,23 @@ def main() -> int:
 
     # A localisation value is one physical line; a raw newline splits the key.
     import re
+    # The engine reads [..] as a command, never as literal text, so the last
+    # segment is a Get* command or a custom localisation this mod defines.
+    custom = set()
+    for path in (ROOT / "customizable_localization").rglob("*.txt"):
+        custom.update(re.findall(r'(?m)^\s*name\s*=\s*"?(\w+)', path.read_text(encoding="cp1252", errors="replace")))
     for path in sorted((ROOT / "localisation").rglob("*.yml")):
         for number, line in enumerate(path.read_text(encoding="utf-8-sig").split("\n"), 1):
             if (line.strip() and not line.lstrip().startswith("#")
                     and not re.match(r'^\s*[A-Za-z0-9_.\-]+:\d*\s+"', line)
                     and not re.match(r'^l_\w+:\s*$', line)):
                 failures.append(f"{path.relative_to(ROOT)}:{number}: localisation line is not a key (split value?)")
+            if line.lstrip().startswith("#"):
+                continue
+            for command in re.findall(r"\[([^\[\]]*)\]", line):
+                last = command.split(".")[-1]
+                if not last.startswith("Get") and last not in custom:
+                    failures.append(f"{path.relative_to(ROOT)}:{number}: [{command}] is read as a command, not as text")
 
     if failures:
         print("Clausewitz brace failures:")

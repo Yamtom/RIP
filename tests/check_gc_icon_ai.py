@@ -5,7 +5,7 @@ from clausewitz_testlib import read, named_block
 
 def setup(**changes):
     w, c, p = fixture('greek_catholic')
-    c.update(ai=True, num_of_rebel_armies=0, patriarch_authority=.4,
+    c.update(ai=True, num_of_rebel_armies=0, patriarch_authority=.14,
              prestige=50, treasury=0)
     p['unrest'] = 0
     c.update(changes)
@@ -25,9 +25,9 @@ cases = [
     ({'adm_power': 599}, 0, None),
     ({'is_at_war': True, 'adm_power': 600}, 0, None),
     ({'is_at_war': True, 'prestige': 0}, 0, 'liturgy'),
-    ({'patriarch_authority': .399, 'prestige': 0}, 0, None),
-    ({'patriarch_authority': .2}, 3, 'charity'),
-    ({'patriarch_authority': .199}, 3, None),
+    ({'patriarch_authority': .139, 'prestige': 0}, 0, None),
+    ({'patriarch_authority': .07}, 3, 'charity'),
+    ({'patriarch_authority': .069}, 3, None),
     ({'ai': False, 'prestige': 0}, 3, None),
     ({'religion': 'catholic', 'prestige': 0}, 3, None),
     ({'religion': 'russian_orthodox', 'prestige': 0}, 3, None),
@@ -41,7 +41,7 @@ for changes, unrest, expected in cases:
     active = [key for key in ('liturgy', 'learning', 'charity')
               if c['modifiers'].get('rip_church_gc_icon_' + key, -1) > w.day]
     assert active == ([] if expected is None else [expected]), (changes, unrest, active)
-    assert abs(c['patriarch_authority'] - (initial - (.2 if expected else 0))) < 1e-9
+    assert abs(c['patriarch_authority'] - (initial - (.07 if expected else 0))) < 1e-9
     if expected:
         assert c['modifiers']['rip_church_gc_icon_' + expected] == w.day + 1825
     before = deepcopy(c)

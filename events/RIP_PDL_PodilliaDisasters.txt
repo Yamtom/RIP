@@ -675,7 +675,7 @@ country_event = {
 			}
 			add_papal_influence = 15
 		}
-		else_if = {
+		if = {
 			limit = {
 				OR = {
 					religion = orthodox
@@ -683,9 +683,9 @@ country_event = {
 					religion = greek_catholic
 				}
 			}
-			add_patriarch_authority = 0.05
+			rip_grant_authority_effect = { PA = 0.05 GC = 0.02 }
 		}
-		else_if = {
+		if = {
 			limit = {
 				OR = {
 					religion = protestant

@@ -10,13 +10,23 @@ rip_parish_visit_target = {
 	NOT = { has_province_modifier = rip_parish_alms_register }
 }
 
+# Country scope. The Greek Catholic hierarchy earns a third of the authority it
+# once did, so its ten-year parish action costs 2; the other communions pay 5.
+# rip_pay_parish_action_authority_effect charges the same two amounts.
+rip_has_parish_action_authority = {
+	OR = {
+		AND = { religion = greek_catholic patriarch_authority = 0.02 }
+		AND = { NOT = { religion = greek_catholic } patriarch_authority = 0.05 }
+	}
+}
+
 # Country scope; the same gate is checked again when the event option is chosen.
 rip_can_fund_parish_visit = {
 	OR = { rip_church_ro_jurisdiction = yes religion = greek_catholic }
 	is_at_war = no
 	treasury = 100
 	adm_power = 25
-	patriarch_authority = 0.05
+	rip_has_parish_action_authority = yes
 	NOT = { has_country_modifier = rip_parish_visit_recent }
 	any_owned_province = { rip_parish_visit_target = yes }
 }

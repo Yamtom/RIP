@@ -42,7 +42,7 @@ def build_panels(g):
         years = re.search(r'cooldown_years\s*=\s*(\d+)', block)[1]
         modifier = re.search(r'add_country_modifier\s*=\s*\{\s*name\s*=\s*(\w+)', block)[1]
         active = choice('RipGov' + key[:3].title() + 'DossierActive' + key,
-                        [(f'has_country_modifier = {modifier}', ' §G[Active]§!')], '')
+                        [(f'has_country_modifier = {modifier}', ' §G(Active)§!')], '')
         # The complete live trigger is the final gate, including less common
         # requirements omitted from the short, prioritised blocker messages.
         status = choice('RipGov' + key[:3].title() + 'DossierAction' + key, list(reasons) + [

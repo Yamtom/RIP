@@ -33,7 +33,7 @@ by_id = {dict(e)['id']: e for e in raw_events}
 hc_menu = next(e for e in raw_events if dict(e)['id'] == 'rip_gc_test.2')
 hc_options = [v for k, v in hc_menu if k == 'option' and 'trigger' in dict(v)]
 assert len(hc_options) == 5
-for option, target in zip(hc_options, (0, .19, .2, .4, 1)):
+for option, target in zip(hc_options, (0, .06, .07, .14, 1)):
     steps = [float(v) for k, v in option if k == 'add_patriarch_authority']
     assert steps == [-1, target]
     for initial in (0, .17, .6, 1):

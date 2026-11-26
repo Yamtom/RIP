@@ -211,8 +211,9 @@ def run_cases():
     for faith in ('orthodox', 'russian_orthodox', 'greek_catholic', 'catholic', 'sunni'):
         w, c = fixture(faith)
         c.update(patriarch_authority=0, adm_power=0)
-        w.run('rip_faith_mission_resource_effect', c, PA='0.1', PI='20', ADM='25')
-        expected = (.1, 0, 0) if faith in ('orthodox', 'russian_orthodox', 'greek_catholic') else (0, 20, 0) if faith == 'catholic' else (0, 0, 25)
+        w.run('rip_faith_mission_resource_effect', c, PA='0.1', GC='0.03', PI='20', ADM='25')
+        expected = ((.1, 0, 0) if faith in ('orthodox', 'russian_orthodox') else (.03, 0, 0) if faith == 'greek_catholic'
+                    else (0, 20, 0) if faith == 'catholic' else (0, 0, 25))
         assert (c['patriarch_authority'], c['papal_influence'], c['adm_power']) == expected
         cases += 1
     # Adoption remains idempotent, including a change away/back and a moved capital.
