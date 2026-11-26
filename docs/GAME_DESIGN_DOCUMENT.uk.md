@@ -400,7 +400,7 @@ localisation використовує style guide.
   vanilla поведінку.
 
 Усі overrides вносяться до allowlist із причиною. Відомі великі кандидати:
-`DOM_Russia_Missions`, `TR_Russian_Minors_Missions`, `WomenInHistory`,
+`DOM_Russia_Missions`, `TR_Russian_Minors_Missions`,
 `RuthenianNation`, base cultures/governments/estates, province та war history.
 `replace_path` використовується лише коли справді треба приховати весь vanilla
 каталог; bookmarks залишаються additive.
