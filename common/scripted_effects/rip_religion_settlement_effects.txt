@@ -65,7 +65,7 @@ rip_faith_fund_mission_effect = {
 		limit = { rip_faith_can_fund_mission_trigger = yes }
 		add_treasury = -100
 		add_adm_power = -25
-		add_patriarch_authority = -0.05
+		rip_pay_parish_action_authority_effect = yes
 		add_country_modifier = { name = rip_parish_visit_recent duration = 3650 }
 		random_owned_province = {
 			limit = { rip_faith_mission_province_trigger = yes }
@@ -110,11 +110,20 @@ rip_kyiv_enact_council_policy_effect = {
 	}
 }
 
+# Country scope. A one-off authority reward. The Greek Catholic hierarchy earns
+# a third of what it once did (26 November 2026), so it receives GC; every other
+# faith that holds Patriarch Authority receives PA.
+rip_grant_authority_effect = {
+	if = { limit = { religion = greek_catholic } add_patriarch_authority = $GC$ }
+	if = { limit = { NOT = { religion = greek_catholic } } add_patriarch_authority = $PA$ }
+}
+
 # Religious mission rewards must use a resource the recipient can spend.
 rip_faith_mission_resource_effect = {
-	if = { limit = { uses_patriarch_authority = yes } add_patriarch_authority = $PA$ }
-	else_if = { limit = { religion = catholic } add_papal_influence = $PI$ }
-	else = { add_adm_power = $ADM$ }
+	if = { limit = { religion = greek_catholic } add_patriarch_authority = $GC$ }
+	if = { limit = { NOT = { religion = greek_catholic } uses_patriarch_authority = yes } add_patriarch_authority = $PA$ }
+	if = { limit = { NOT = { uses_patriarch_authority = yes } religion = catholic } add_papal_influence = $PI$ }
+	if = { limit = { NOT = { uses_patriarch_authority = yes } NOT = { religion = catholic } } add_adm_power = $ADM$ }
 }
 
 rip_faith_settlement_upkeep_effect = {

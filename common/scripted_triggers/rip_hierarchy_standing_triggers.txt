@@ -13,17 +13,14 @@
 #
 # The rule: a Catholic state keeps papal_influence, a Greek Catholic state uses
 # the native patriarch_authority bar (shown to the player as Hierarchical
-# Capacity, HC). The Greek Catholic thresholds are lower than the old papal
-# fractions (40 / 50 / 60 would read 0.4 / 0.5 / 0.6) because the bar refills
-# slowly and is also the price of the local synod and icon actions:
-#   - untouched Orthodox states sat at 0.150 (1454), 0.155 (1455), 0.180 (1460)
-#     in diagnostics/gc_pacing_20260929/run4, Greek Catholic states at
-#     0.05-0.15 after buying an icon and a synod;
-#   - a synod or an icon costs 0.20, so 0.40 is the price of two of them;
-#   - the yearly modifiers that feed the bar are worth 0.001-0.0125 a year.
-# 0.30 / 0.35 / 0.40 keep the papal ordering (40 < 50 < 60) in the five-point
-# bands rip_church_refresh_pa_effect already uses, and none is harder than the
-# 0.5 that hlc_confirm_the_metropolitan_see asks of an Orthodox state.
+# Capacity, HC). The Greek Catholic thresholds sit far below the old papal
+# fractions because the bar refills slowly (0.025 a year) and is also the price
+# of the local synod and icon actions (0.07 each). 0.10 / 0.12 / 0.13 are the
+# 29 September design values (0.30 / 0.35 / 0.40) divided by three, like that
+# income and those prices, on 26 November 2026. They keep the papal ordering
+# (40 < 50 < 60) and none is harder than the 0.5 that
+# hlc_confirm_the_metropolitan_see asks of an Orthodox state. One-off Greek
+# Catholic rewards from events and missions were divided the same day.
 # tests/check_gc_synod_gates.py holds the contract: no papal_influence gate may
 # be reachable by a greek_catholic country.
 # =============================================================================
@@ -31,21 +28,21 @@
 rip_gc_hierarchy_standing_low = {
 	custom_trigger_tooltip = {
 		tooltip = rip_gc_hierarchy_standing_low_tt
-		patriarch_authority = 0.30
+		patriarch_authority = 0.10
 	}
 }
 
 rip_gc_hierarchy_standing_mid = {
 	custom_trigger_tooltip = {
 		tooltip = rip_gc_hierarchy_standing_mid_tt
-		patriarch_authority = 0.35
+		patriarch_authority = 0.12
 	}
 }
 
 rip_gc_hierarchy_standing_high = {
 	custom_trigger_tooltip = {
 		tooltip = rip_gc_hierarchy_standing_high_tt
-		patriarch_authority = 0.40
+		patriarch_authority = 0.13
 	}
 }
 

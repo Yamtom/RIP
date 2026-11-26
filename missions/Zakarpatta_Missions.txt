@@ -142,7 +142,7 @@ UZH_missions_1 = {
 				add_papal_influence = 15
 			}
 			else = {
-				rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
+				rip_faith_mission_resource_effect = { PA = 0.15 GC = 0.05 PI = 15 ADM = 25 }
 			}
 			country_event = {
 				id = uzh.201
@@ -1482,7 +1482,7 @@ UZH_missions_3 = {
 				}
 				if = {
 					limit = { rip_faith_is_eastern_orthodox = yes }
-					rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
+					rip_faith_mission_resource_effect = { PA = 0.15 GC = 0.05 PI = 15 ADM = 25 }
 					add_country_modifier = {
 						name = "uz_old_rite_resilience"
 						duration = 9125
@@ -1498,7 +1498,7 @@ UZH_missions_3 = {
 					}
 					else_if = {
 						limit = { religion = greek_catholic }
-						rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
+						rip_faith_mission_resource_effect = { PA = 0.15 GC = 0.05 PI = 15 ADM = 25 }
 					}
 					add_country_modifier = {
 						name = "uz_greek_catholic_concord"
@@ -1988,9 +1988,12 @@ UZH_missions_3_ruthenian = {
 					OR = {
 						religion = orthodox
 						religion = russian_orthodox
-						religion = greek_catholic
 					}
 					patriarch_authority = 0.75
+				}
+				AND = {
+					religion = greek_catholic
+					patriarch_authority = 0.25
 				}
 				AND = {
 					religion = catholic
@@ -2062,7 +2065,7 @@ UZH_missions_3_ruthenian = {
 				add_papal_influence = 25
 			}
 			else = {
-				rip_faith_mission_resource_effect = { PA = 0.25 PI = 25 ADM = 25 }
+				rip_faith_mission_resource_effect = { PA = 0.25 GC = 0.08 PI = 25 ADM = 25 }
 			}
 			hidden_effect = {
 				set_country_flag = uzh_orthodox_unity_achieved
