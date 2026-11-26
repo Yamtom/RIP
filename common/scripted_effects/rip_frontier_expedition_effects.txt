@@ -116,23 +116,70 @@ rip_frontier_manchuria_purchase_effect = {
 	}
 }
 
+rip_expedition_clear_province_effect = {
+	if = {
+		limit = { has_province_flag = rip_expedition_steppe_defense }
+		remove_province_modifier = steppe_border_defense
+		clr_province_flag = rip_expedition_steppe_defense
+	}
+	if = {
+		limit = { has_province_flag = rip_expedition_fortified_line }
+		remove_province_modifier = zasechnaya_cherta_province
+		clr_province_flag = rip_expedition_fortified_line
+	}
+}
+
 rip_frontier_expedition_upkeep_effect = {
-	if = { limit = { NOT = { rip_frontier_crimea_base = yes } }
-	remove_country_modifier = ruthenian_eastward_mandate
-	remove_country_modifier = ruthenian_frontier_organizers
-	remove_country_modifier = ruthenian_raiding_columns
-	remove_country_modifier = ruthenian_frontier_patrol_licenses
-	remove_country_modifier = ruthenian_steppe_trade_licenses
-	every_owned_province = { remove_province_modifier = steppe_border_defense remove_province_modifier = zasechnaya_cherta_province }
+	if = {
+		limit = {
+			OR = {
+				has_country_modifier = ruthenian_eastward_mandate
+				has_country_modifier = ruthenian_frontier_organizers
+				has_country_modifier = ruthenian_raiding_columns
+				has_country_modifier = ruthenian_frontier_patrol_licenses
+				has_country_modifier = ruthenian_steppe_trade_licenses
+				has_country_flag = rip_expedition_defenses_active
+			}
+			NOT = { rip_frontier_crimea_base = yes }
+		}
+		remove_country_modifier = ruthenian_eastward_mandate
+		remove_country_modifier = ruthenian_frontier_organizers
+		remove_country_modifier = ruthenian_raiding_columns
+		remove_country_modifier = ruthenian_frontier_patrol_licenses
+		remove_country_modifier = ruthenian_steppe_trade_licenses
+		if = {
+			limit = { has_country_flag = rip_expedition_defenses_active }
+			crimea_region = {
+				limit = { owned_by = ROOT }
+				rip_expedition_clear_province_effect = yes
+			}
+			clr_country_flag = rip_expedition_defenses_active
+		}
 	}
-	if = { limit = { NOT = { rip_frontier_ural_base = yes } }
-	remove_country_modifier = ruthenian_ural_gate
-	remove_country_modifier = ruthenian_ural_fortified_line
-	remove_country_modifier = ruthenian_ural_trade_posts
+	if = {
+		limit = {
+			OR = {
+				has_country_modifier = ruthenian_ural_gate
+				has_country_modifier = ruthenian_ural_fortified_line
+				has_country_modifier = ruthenian_ural_trade_posts
+			}
+			NOT = { rip_frontier_ural_base = yes }
+		}
+		remove_country_modifier = ruthenian_ural_gate
+		remove_country_modifier = ruthenian_ural_fortified_line
+		remove_country_modifier = ruthenian_ural_trade_posts
 	}
-	if = { limit = { NOT = { rip_frontier_manchuria_base = yes } }
-	remove_country_modifier = ruthenian_manchurian_push
-	remove_country_modifier = ruthenian_manchurian_wardens
-	remove_country_modifier = ruthenian_manchurian_companies
+	if = {
+		limit = {
+			OR = {
+				has_country_modifier = ruthenian_manchurian_push
+				has_country_modifier = ruthenian_manchurian_wardens
+				has_country_modifier = ruthenian_manchurian_companies
+			}
+			NOT = { rip_frontier_manchuria_base = yes }
+		}
+		remove_country_modifier = ruthenian_manchurian_push
+		remove_country_modifier = ruthenian_manchurian_wardens
+		remove_country_modifier = ruthenian_manchurian_companies
 	}
 }

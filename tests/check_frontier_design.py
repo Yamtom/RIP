@@ -11,9 +11,15 @@ for name in ('zaz_path_triggers', 'rip_frontier_host_triggers', 'rip_frontier_ex
     TRIGGERS.update(parse(read('common/scripted_triggers/'+name+'.txt')))
 for name in ('rip_frontier_host_effects', 'rip_frontier_expedition_effects'):
     EFFECTS.update(parse(read('common/scripted_effects/'+name+'.txt')))
+ON_ACTIONS = dict(parse(read('common/on_actions/RIP_frontier_design_on_actions.txt')))
 
 
 class World(BaseWorld):
+    def __init__(self):
+        super().__init__()
+        self.owned_province_sweeps = 0
+        self.crimea_sweeps = 0
+
     def province(self, number, owner, religion='orthodox'):
         p = super().province(number, owner, religion)
         self.provinces[number] = p
@@ -58,6 +64,15 @@ class World(BaseWorld):
                 tag=self.ref(value,scope,root or scope,prev)['id']
                 scope.setdefault('claims',set()).add(tag)
                 self.claims=getattr(self,'claims',[])+[int(scope['id'])]
+            elif key == 'crimea_region':
+                self.crimea_sweeps += 1
+                fields = dict(value)
+                for province in self.provinces.values():
+                    if province['region'] == key and self.gate(fields['limit'], province, root, scope):
+                        self.execute([(k, v) for k, v in value if k != 'limit'], province, root, scope)
+            elif key == 'every_owned_province':
+                self.owned_province_sweeps += 1
+                rest.append((key, value))
             elif key=='log': pass
             else: rest.append((key,value))
         super().execute(rest,scope,root,prev)
@@ -174,8 +189,11 @@ def host_cases():
     w.run('rip_host_network_upkeep_effect',c)
     assert not gate(w,c,'rip_host_two_active') and 'cossack_host_muster' not in p['modifiers']
     assert 'cossack_host_founded' in c['modifiers']
-    for n in range(7,13): w.provinces[n]['owner']='MOS'
-    w.run('rip_host_network_upkeep_effect',c); w.run('rip_host_network_upkeep_effect',foreign)
+    for n in range(7,13):
+        province = w.provinces[n]
+        province['owner'] = 'MOS'
+        w.execute(ON_ACTIONS['on_province_owner_change'], province)
+    w.run('rip_host_network_upkeep_effect',c)
     assert 'cossack_host_founded' not in c['modifiers']
     assert 'cossack_host_muster' not in other['modifiers']
     dates=deepcopy(c['flags']); money=c['treasury']
@@ -186,6 +204,35 @@ def host_cases():
     c['reforms'].clear(); w.run('rip_host_network_upkeep_effect',c)
     assert not c['modifiers'] and c['flags']==dates
     return 7
+
+
+def upkeep_cases():
+    w, sponsor, foreign = realm()
+    ordinary, project, captured = (w.provinces[number] for number in (1, 2, 3))
+    for province in (ordinary, project, captured):
+        province['modifiers']['steppe_border_defense'] = 100
+    for province in (project, captured):
+        province['flags']['rip_expedition_steppe_defense'] = 0
+    sponsor['flags']['rip_expedition_defenses_active'] = 0
+    sponsor['modifiers']['ruthenian_eastward_mandate'] = 100
+
+    w.execute(ON_ACTIONS['on_monthly_pulse'], foreign)
+    assert (w.owned_province_sweeps, w.crimea_sweeps) == (0, 0)
+
+    captured.update(owner='MOS', controlled_by='MOS')
+    w.execute(ON_ACTIONS['on_province_owner_change'], captured)
+    assert not captured['modifiers'] and not captured['flags']
+    for province in w.provinces.values():
+        province['connected'] = False
+    w.execute(ON_ACTIONS['on_monthly_pulse'], sponsor)
+    assert (w.owned_province_sweeps, w.crimea_sweeps) == (0, 1)
+    assert 'steppe_border_defense' in ordinary['modifiers']
+    assert not project['modifiers'] and not project['flags']
+    assert not sponsor['modifiers'] and not sponsor['flags']
+
+    w.execute(ON_ACTIONS['on_monthly_pulse'], sponsor)
+    assert (w.owned_province_sweeps, w.crimea_sweeps) == (0, 1)
+    return 4
 
 
 def contracts():
@@ -201,7 +248,7 @@ def contracts():
 
 
 if __name__=='__main__':
-    contracts(); count=expedition_cases()+host_cases()
+    contracts(); count=expedition_cases()+host_cases()+upkeep_cases()
     # Counterexample: opening the term permanently must break the same tests.
     original=TRIGGERS['rip_frontier_term_open']; TRIGGERS['rip_frontier_term_open']=parse('always = yes')
     try:
@@ -209,4 +256,4 @@ if __name__=='__main__':
         except AssertionError: pass
         else: raise AssertionError('missing shared term escaped')
     finally: TRIGGERS['rip_frontier_term_open']=original
-    print(f'FRONTIER DESIGN PASS: {count} source cases; bounded connected claims, AI reserve, repeated payment and Host base loss/recovery. Runtime unverified.')
+    print(f'FRONTIER DESIGN PASS: {count} source cases; claims, AI reserve, Host recovery, transfer and scoped upkeep. Runtime unverified.')
