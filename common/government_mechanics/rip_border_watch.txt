@@ -15,12 +15,11 @@
 # (events/SteppeRaiding.txt, steppe_raid.2). The Podillian frontier path keeps
 # cossacks_mechanic (pdl_frontier_republic_reform) and gets no second panel.
 #
-# Three orders, one per kind of monarch power, buttons only (the devshirme
-# pattern of the sibling mechanics: no powers, no .gui, no DLC gate):
+# Three orders spend a common reserve of watchmen and supplies:
 #
-#   Post the Watchtowers  ADM  every exposed city: a tower line for eight years
-#   Send Out the Patrols  MIL  the realm: patrols for five years
-#   Settle the Watch      DIP  one exposed city: watchmen on the land for twenty years
+#   Post the Watchtowers  60 readiness: a tower line for eight years
+#   Send Out the Patrols  50 readiness: riders for five years
+#   Settle the Watch      75 readiness: watchmen for twenty years
 #
 # "Exposed" is rip_watch_exposed_province: a city with a province of a steppe
 # power next to it - the provinces steppe_raid.2 picks as targets. The raid
@@ -28,13 +27,8 @@
 # the lesser devastation when the realm holds the patrols, the way it already
 # treats the church's frontier watch and the Muscovite abatis line.
 #
-# Choice, not three free bonuses:
-#
-#  - ONE ORDER A DECADE. The three share the cooldown token rip_border_watch_order
-#    (ten years) and a cooldown name; the towers last eight years, the patrols
-#    five, so no order is up all the time.
-#  - A PRICE ON EACH. The towers and the patrols are paid in monarch power; the
-#    patrols raise army upkeep; the settled watch gives up 15% of the city's tax.
+# Readiness grows by half a point each month. The ruler can bank a reserve
+# before a war. Patrols raise upkeep and the settled watch costs local taxes.
 #  - NO SECOND SET OF BONUSES FOR PODILLIA. The recurring border-policy decision
 #    (decisions/Podillia_Decisions.txt, pdl_border_policy_decision) works on
 #    national modifiers and a province development point; these orders work on
@@ -42,8 +36,8 @@
 #    doubles the other (docs/REGIONAL_REFORM_AUDIT.uk.md asks for exactly that).
 #  - LIFECYCLE. rip_border_watch_clear_effect (common/scripted_effects/
 #    rip_border_watch_effects.txt) runs from both reforms' removed_effect: the
-#    patrols are called in and the tower lines and settlements are lifted. The
-#    cooldown token is kept, and nothing is refunded. removed_effect runs when the
+#    patrols are called in and the tower lines and settlements are lifted.
+#    removed_effect runs when the
 #    reform is removed by remove_government_reform but NOT when a change of government
 #    type drops it (measured in EU4 1.37.5), so each order sets the country flag
 #    rip_border_watch_laid and rip_border_watch_sweep_effect, once a year from
@@ -68,20 +62,31 @@ rip_border_watch_mechanic = {
 		}
 	}
 
+	powers = {
+		rip_border_readiness = {
+			min = 0
+			max = 100
+			default = 0
+			base_monthly_growth = 0.5
+			reset_on_new_ruler = no
+			is_good = yes
+		}
+	}
+
 	interactions = {
 		# A line of towers and beacon posts on every city that faces the steppe.
 		rip_post_the_watchtowers = {
 			icon = GFX_rip_watch_towers
+			cost_type = rip_border_readiness
+			cost = 60
 			trigger = {
 				rip_border_watch_held = yes
-				adm_power_cost = 50
 				custom_trigger_tooltip = {
 					tooltip = rip_watch_exposed_province_tt
 					any_owned_province = { rip_watch_exposed_province = yes }
 				}
 			}
 			effect = {
-				adm_power_cost = 50
 				custom_tooltip = rip_post_the_watchtowers_tt
 				hidden_effect = {
 					set_country_flag = rip_border_watch_laid
@@ -98,9 +103,7 @@ rip_border_watch_mechanic = {
 					}
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = rip_border_watch_order
-			cooldown_desc = rip_border_watch_order_cd
+			cooldown_years = 0
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -125,22 +128,20 @@ rip_border_watch_mechanic = {
 		# Riders on the line between the posts, for the realm as a whole.
 		rip_send_out_the_patrols = {
 			icon = GFX_rip_watch_patrols
+			cost_type = rip_border_readiness
+			cost = 50
 			trigger = {
 				rip_border_watch_held = yes
-				mil_power_cost = 50
 				NOT = { has_country_modifier = rip_steppe_patrols }
 			}
 			effect = {
-				mil_power_cost = 50
 				add_country_modifier = {
 					name = rip_steppe_patrols
 					duration = 1825
 				}
 				hidden_effect = { set_country_flag = rip_border_watch_laid }
 			}
-			cooldown_years = 10
-			cooldown_token = rip_border_watch_order
-			cooldown_desc = rip_border_watch_order_cd
+			cooldown_years = 0
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -159,16 +160,16 @@ rip_border_watch_mechanic = {
 		# Watchmen settled on the land of one frontier city.
 		rip_settle_the_watch = {
 			icon = GFX_rip_watch_settlers
+			cost_type = rip_border_readiness
+			cost = 75
 			trigger = {
 				rip_border_watch_held = yes
-				dip_power_cost = 50
 				custom_trigger_tooltip = {
 					tooltip = rip_watch_unsettled_province_tt
 					any_owned_province = { rip_watch_unsettled_province = yes }
 				}
 			}
 			effect = {
-				dip_power_cost = 50
 				custom_tooltip = rip_settle_the_watch_tt
 				hidden_effect = {
 					set_country_flag = rip_border_watch_laid
@@ -181,9 +182,7 @@ rip_border_watch_mechanic = {
 					}
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = rip_border_watch_order
-			cooldown_desc = rip_border_watch_order_cd
+			cooldown_years = 0
 			ai_chance = {
 				factor = 1
 				modifier = {

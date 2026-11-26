@@ -1,4 +1,4 @@
-"""Contracts for the Border Watch: one button-only mechanic on the two M5 border reforms of Pereiaslav and Podillia.
+"""Contracts for the Border Watch on the two M5 border reforms of Pereiaslav and Podillia.
 
 Static checks over script, sprites and localisation, written against docs/BORDER_MECHANICS_20261019.uk.md.
 They prove the files agree with each other and with the steppe-raid event the Watch is built to answer; they
@@ -9,9 +9,8 @@ of a scripted trigger inside `available`) is recorded in that document.
     rip_border_watch_mechanic and clear it in removed_effect; their passive bundles are unchanged; the
     Podillian frontier path keeps cossacks_mechanic and gets no second panel.
   * `available` is a plain OR of the two reforms: the engine reads it before scripted triggers exist.
-  * Three buttons, one per monarch power, each paid 50 in trigger and effect, on one ten-year cooldown
-    token with a named cooldown, keyed on the reform and never on the tag, with no powers, no .gui, no
-    else/else_if and no raw flag in a trigger; the two local orders work only on a city that borders a
+  * Three orders draw from one reserve that grows monthly, keyed on the reform and never on the tag,
+    with no custom window, else/else_if or raw flag in a trigger. The two local orders need a city that borders a
     steppe power and say so through custom_trigger_tooltip.
   * The Watch never touches the Podillian border policy: it adds no second independent set of bonuses
     there (docs/REGIONAL_REFORM_AUDIT.uk.md).
@@ -38,26 +37,24 @@ LANGUAGES = ("english", "french", "german", "spanish")
 MECHANIC = "rip_border_watch_mechanic"
 MECH_FILE = "common/government_mechanics/rip_border_watch.txt"
 GFX = "interface/RIP_shared_government_captaincy_icons.gfx"
-TOKEN = "rip_border_watch_order"
-COOLDOWN_DESC = "rip_border_watch_order_cd"
+READINESS = "rip_border_readiness"
 CARRIERS = ("prl_border_fortress_reform", "pdl_carpathian_bastion_reform")
 BASE_BUNDLES = {
     "prl_border_fortress_reform": {"fort_maintenance_modifier": "-0.15", "defensiveness": "0.2"},
     "pdl_carpathian_bastion_reform": {"fort_maintenance_modifier": "-0.15", "defensiveness": "0.2", "hostile_attrition": "1"},
 }
 
-# button -> (power, sprite, "province" | "country", modifier, duration in days)
+# button -> (readiness cost, sprite, scope, modifier, duration in days)
 BUTTONS = {
-    "rip_post_the_watchtowers": ("adm", "GFX_rip_watch_towers", "province", "rip_watchtower_line", 2920),
-    "rip_send_out_the_patrols": ("mil", "GFX_rip_watch_patrols", "country", "rip_steppe_patrols", 1825),
-    "rip_settle_the_watch": ("dip", "GFX_rip_watch_settlers", "province", "rip_settled_watch", 7300),
+    "rip_post_the_watchtowers": (60, "GFX_rip_watch_towers", "province", "rip_watchtower_line", 2920),
+    "rip_send_out_the_patrols": (50, "GFX_rip_watch_patrols", "country", "rip_steppe_patrols", 1825),
+    "rip_settle_the_watch": (75, "GFX_rip_watch_settlers", "province", "rip_settled_watch", 7300),
 }
 MODIFIERS = {
     "rip_watchtower_line": {"local_defensiveness": "0.2", "local_hostile_attrition": "1"},
     "rip_settled_watch": {"local_manpower_modifier": "0.25", "local_defensiveness": "0.1", "local_tax_modifier": "-0.15"},
     "rip_steppe_patrols": {"hostile_attrition": "0.5", "movement_speed": "0.1", "land_maintenance_modifier": "0.05"},
 }
-COOLDOWN_YEARS = 10
 FLAG = "rip_border_watch_laid"  # set by each order, read only by the yearly sweep (a hidden effect: no tooltip shows it)
 
 
@@ -165,7 +162,6 @@ def check_mechanic(mech):
     if available != want:
         problems.append(f"available must be a plain OR of the two reforms (the engine reads it before scripted triggers exist), found: {available}")
     for forbidden, why in (("tag =", "the mechanic must key on the reform, not the tag (PDL becomes VOL/UKR, PRL becomes HET)"),
-                           ("powers = {", "no parallel resource"),
                            ("gui =", "no own window"),
                            ("else = {", "else/else_if bodies drop effects in 1.37.5"),
                            ("else_if", "else/else_if bodies drop effects in 1.37.5"),
@@ -177,13 +173,17 @@ def check_mechanic(mech):
                            ("_settlement_supported", "the Watch must not add a second set of bonuses to the Podillian policy")):
         if forbidden in plain:
             problems.append(f"{forbidden!r} in the mechanic: {why}")
+    powers = children(named_block(mech, "powers"))
+    readiness = normalized(powers[0][1]) if len(powers) == 1 else ""
+    if readiness != f"{READINESS} = {{ min = 0 max = 100 default = 0 base_monthly_growth = 0.5 reset_on_new_ruler = no is_good = yes }}":
+        problems.append("The Watch must accumulate one persistent reserve at 0.5 per month, capped at 100")
     found = interactions(mech)
     names = [name for name, _ in found]
     if names != list(BUTTONS):
         return problems + [f"buttons are {names}, expected {list(BUTTONS)}"]
-    powers, icons = set(), []
+    icons = []
     for name, block in found:
-        power, sprite, scope, modifier, days = BUTTONS[name]
+        cost, sprite, scope, modifier, days = BUTTONS[name]
         trig, eff = named_block(block, "trigger"), named_block(block, "effect")
         icon = re.search(r"(?m)^\s*icon\s*=\s*(\w+)", block)
         icons.append(icon.group(1) if icon else None)
@@ -191,17 +191,12 @@ def check_mechanic(mech):
             problems.append(f"{name} uses {icons[-1]}, expected {sprite}")
         if not normalized(trig).startswith("trigger = { rip_border_watch_held = yes"):
             problems.append(f"{name}: the trigger does not open with rip_border_watch_held = yes")
-        for label, part in (("trigger", trig), ("effect", eff)):
-            cost = re.findall(rf"\b(mil|adm|dip)_power_cost = (\d+)", part)
-            if cost != [(power, "50")]:
-                problems.append(f"{name}: {label} cost is {cost}, expected [{power}_power_cost = 50]")
-        powers.add(power)
-        if f"cooldown_years = {COOLDOWN_YEARS}" not in block:
-            problems.append(f"{name}: cooldown is not {COOLDOWN_YEARS} years")
-        if f"cooldown_token = {TOKEN}" not in block:
-            problems.append(f"{name}: not on the shared cooldown token")
-        if f"cooldown_desc = {COOLDOWN_DESC}" not in block:
-            problems.append(f"{name}: no named cooldown")
+        if f"cost_type = {READINESS}" not in block or f"cost = {cost}" not in block:
+            problems.append(f"{name}: expected {cost} Border Readiness")
+        if re.search(r"\b(mil|adm|dip)_power(?:_cost)?\s*=", trig + eff):
+            problems.append(f"{name}: the reserve is the only upfront cost")
+        if "cooldown_years = 0" not in block or "cooldown_token" in block:
+            problems.append(f"{name}: eligibility is governed by readiness and the order's trigger")
         if "ai_chance" not in block:
             problems.append(f"{name}: no ai_chance")
         if f"name = {modifier}" not in eff or f"duration = {days}" not in eff:
@@ -218,8 +213,6 @@ def check_mechanic(mech):
         else:
             if "add_country_modifier" not in eff or "province" in eff:
                 problems.append(f"{name}: the national order is not a plain country modifier")
-    if powers != {"mil", "adm", "dip"}:
-        problems.append(f"the three buttons spend {sorted(powers)}, expected one each of mil, adm, dip")
     if len(set(icons)) != len(icons):
         problems.append("two buttons share an icon")
     if any(i and i.startswith("GFX_cossacks_ability_") for i in icons):
@@ -323,13 +316,11 @@ def check_raid(raid):
 def check_text(loc, mech):
     problems = []
     found = dict(interactions(mech))
-    for key, power in (("rip_post_the_watchtowers_desc", "administrative"), ("rip_send_out_the_patrols_desc", "military"),
-                       ("rip_settle_the_watch_desc", "diplomatic")):
+    for order, (cost, *_fields) in BUTTONS.items():
+        key = f"{order}_desc"
         text = loc_value(loc, key) or ""
-        if f"Spend 50 {power} power" not in text:
-            problems.append(f"{key} does not state the cost: 50 {power} power")
-        if "ten-year cooldown" not in text:
-            problems.append(f"{key} does not state the shared ten-year cooldown")
+        if f"Spend {cost} Readiness" not in text:
+            problems.append(f"{key} does not state the cost: {cost} Readiness")
     towers = loc_value(loc, "rip_post_the_watchtowers_desc") or ""
     for want in ("+20% local defensiveness", "+1 local attrition", "eight years", "steppe power"):
         if want not in towers:
@@ -342,8 +333,6 @@ def check_text(loc, mech):
     for want in ("+25% local manpower", "+10% local defensiveness", "-15% local tax", "twenty years", "steppe power"):
         if want not in settle:
             problems.append(f"the settlement text lacks {want!r}")
-    if "§Y10§!" not in (loc_value(loc, COOLDOWN_DESC) or ""):
-        problems.append("the cooldown text does not name ten years")
     for key, days in (("rip_post_the_watchtowers_tt", 2920), ("rip_settle_the_watch_tt", 7300)):
         words = {2920: "eight years", 7300: "twenty years"}[days]
         if words not in (loc_value(loc, key) or ""):
@@ -353,7 +342,8 @@ def check_text(loc, mech):
 
 def check_localisation():
     problems = []
-    keys = [f"ability_{MECHANIC}", COOLDOWN_DESC, "rip_watch_exposed_province_tt", "rip_watch_unsettled_province_tt",
+    keys = [f"ability_{MECHANIC}", READINESS, f"{READINESS}_desc", f"monthly_{READINESS}",
+            f"{READINESS}_gain_modifier", "rip_watch_exposed_province_tt", "rip_watch_unsettled_province_tt",
             "rip_post_the_watchtowers_tt", "rip_settle_the_watch_tt"]
     for name in BUTTONS:
         keys += [name, f"{name}_desc"]
@@ -454,18 +444,18 @@ def planted():
     """(label, source key, old, new) - each must make run_checks report something."""
     return [
         ("available uses the scripted trigger", "mech", "available = {\n\t\tOR = {\n\t\t\thas_reform = prl_border_fortress_reform\n\t\t\thas_reform = pdl_carpathian_bastion_reform\n\t\t}\n\t}", "available = {\n\t\trip_border_watch_held = yes\n\t}"),
-        ("towers cost 40", "mech", "\t\t\teffect = {\n\t\t\t\tadm_power_cost = 50", "\t\t\teffect = {\n\t\t\t\tadm_power_cost = 40"),
-        ("shared token dropped", "mech", f"cooldown_token = {TOKEN}", "cooldown_token = a_private_token"),
-        ("cooldown 5 years", "mech", "cooldown_years = 10", "cooldown_years = 5"),
+        ("towers cost 40", "mech", "cost = 60", "cost = 40"),
+        ("patrols draw a different resource", "mech", f"cost_type = {READINESS}", "cost_type = a_private_power"),
+        ("cooldown 5 years", "mech", "cooldown_years = 0", "cooldown_years = 5"),
         ("towers last twenty years", "mech", "duration = 2920", "duration = 7300"),
-        ("keyed on the tag", "mech", "rip_border_watch_held = yes\n\t\t\t\tmil_power_cost = 50", "tag = PDL\n\t\t\t\tmil_power_cost = 50"),
+        ("keyed on the tag", "mech", "rip_border_watch_held = yes", "tag = PDL"),
         ("a raw flag in a trigger", "mech", "NOT = { has_country_modifier = rip_steppe_patrols }", "has_country_flag = some_flag"),
         ("a second panel for Podillia's policy", "mech", "add_country_modifier = {\n\t\t\t\t\tname = rip_steppe_patrols", "add_country_modifier = {\n\t\t\t\t\tname = pdl_defense_funded"),
         ("towers without the tooltip wrapper", "mech", "custom_trigger_tooltip = {\n\t\t\t\t\ttooltip = rip_watch_exposed_province_tt\n\t\t\t\t\tany_owned_province = { rip_watch_exposed_province = yes }\n\t\t\t\t}", "any_owned_province = { rip_watch_exposed_province = yes }"),
         ("tower line without remove-then-add", "mech", "if = {\n\t\t\t\t\t\t\tlimit = { has_province_modifier = rip_watchtower_line }\n\t\t\t\t\t\t\tremove_province_modifier = rip_watchtower_line\n\t\t\t\t\t\t}\n", ""),
         ("settlement may run in a war", "mech", "factor = 0\n\t\t\t\t\tis_at_war = yes", "factor = 2\n\t\t\t\t\tis_at_war = yes"),
         ("two buttons share an icon", "mech", "icon = GFX_rip_watch_settlers", "icon = GFX_rip_watch_towers"),
-        ("a bar added", "mech", "interactions = {", "powers = { x = { } }\n\tinteractions = {"),
+        ("a second bar added", "mech", "powers = {", "powers = { x = { }"),
         ("steppe power drifts from the church", "triggers", "has_reform = steppe_horde\n\t\ttechnology_group = nomad_group", "has_reform = steppe_horde"),
         ("exposed city drops is_city", "triggers", "\tis_city = yes\n", ""),
         ("clear-up forgets the patrols", "effects", "remove_country_modifier = rip_steppe_patrols", "add_prestige = 0"),
@@ -481,7 +471,7 @@ def planted():
         ("the sweep ignores the reforms", "effects", "NOT = { rip_border_watch_held = yes }", "always = yes"),
         ("the yearly hook is lost", "on_actions", "rip_border_watch_sweep_effect = yes", "add_prestige = 0"),
         ("text number drifts", "loc", "+20% local defensiveness", "+30% local defensiveness"),
-        ("text cost drifts", "loc", "Spend 50 military power to send riders", "Spend 40 military power to send riders"),
+        ("text cost drifts", "loc", "Spend 50 Readiness to send riders", "Spend 40 Readiness to send riders"),
     ]
 
 
@@ -517,13 +507,10 @@ def main():
             print("  -", problem)
         return 1
     caught = self_test({k: (v.replace("\r\n", "\n") if isinstance(v, str) else v) for k, v in base.items()})
-    print(f"BORDER WATCH PASS: two carriers and no other, plain available, three buttons priced 50 on one ten-year token, "
+    print(f"BORDER WATCH PASS: two carriers and no other, plain available, three orders spending shared readiness, "
           f"raid hook in steppe_raid.2 only, steppe power equals the church's, three modifiers, sprites, 4 languages; "
           f"{caught} planted violations caught")
-    print("LIMIT: static contracts. In EU4 1.37.5 the load, the fixture battery, the exact trigger and effect bodies of the three "
-          "buttons on a city next to a steppe power, removed_effect (it runs on remove_government_reform, not on a government "
-          "swap) and the yearly sweep (called directly) were measured (docs/BORDER_MECHANICS_20261019.uk.md, section 7); button "
-          "tooltips, the sweep on a real yearly pulse, raid outcomes, AI choices and campaign balance were not.")
+    print("LIMIT: static contracts for the readiness version. The earlier runtime fixture used monarch-power orders.")
     return 0
 
 
