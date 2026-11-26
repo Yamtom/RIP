@@ -502,7 +502,7 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 - [x] Скоротити надмірні mana rewards і income-independent raid payouts.
 - [x] Переглянути KIE/KRU, Russia та long-range claim bursts.
 - [x] Обмежити PU/vassal/tributary CB duration і кількість одночасних цілей.
-- [x] Провести 10 AI observer runs до 1650 та 3 ручні representative campaigns.
+- [ ] Провести 10 прогонів ШІ-спостерігача до 1650 року та 3 ручні репрезентативні кампанії. [Стан замірів](BALANCE_PLAYTEST_REPORT.md).
 
 ## Віха 4 — бета зображень та інтерфейсу
 

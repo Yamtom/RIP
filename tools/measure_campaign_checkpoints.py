@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tests"))
 from clausewitz_testlib import _mask_comments_and_strings, matching_brace
 
 TAG = rb"[A-Z0-9]{3}"
-DEFAULT_TAGS = "KIE KRU UKR ZAZ HET POL LIT PLC HLC VLN PDL PRL CHR UZH MOL"
+DEFAULT_TAGS = "KIE KRU UKR ZAZ HET POL LIT PLC MOS RUS HLC VLN PDL PRL CHR UZH MOL"
 START_LINE = re.compile(rb'(?m)^date=(\d+\.\d+\.\d+)\r?$')
 FORT_MAINTENANCE_INDEX = 8  # rakaly/eu4save, Query.expense_ledger_breakdown
 PAID_PROJECTS = {
