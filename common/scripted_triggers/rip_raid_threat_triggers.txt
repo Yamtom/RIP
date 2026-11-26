@@ -1,0 +1,45 @@
+# Raid threat defences (common/scripted_effects/rip_raid_threat_effects.txt).
+
+# Province scope: works, watches or settlements that keep a raid from running
+# wild here. The union of the protections the raid events already honour.
+rip_raid_province_is_guarded = {
+	OR = {
+		has_province_modifier = steppe_border_defense
+		has_province_modifier = zasechnaya_cherta_province
+		has_province_modifier = rip_church_frontier_watch
+		has_province_modifier = rip_watchtower_line
+		has_province_modifier = rip_settled_watch
+		has_province_modifier = glinski_tatar_settlement
+		has_province_modifier = jagoldai_horde_settlement
+		has_province_modifier = lipka_tatar_settlement
+		owner = {
+			OR = {
+				has_country_modifier = tatar_border_defense
+				has_country_modifier = zasechnaya_cherta
+				has_country_modifier = rip_steppe_patrols
+			}
+		}
+	}
+}
+
+# Country scope: patrols, anti-raid works or an organised border defence.
+rip_raid_threat_has_patrols = {
+	OR = {
+		has_country_modifier = mobile_anti_raid_patrols
+		has_country_modifier = anti_raid_fortifications
+		has_country_modifier = zasechnaya_cherta
+		has_country_modifier = rip_steppe_patrols
+		has_country_modifier = tatar_border_defense
+	}
+}
+
+# Country scope, ROOT = this country: a fort that looks at a foreign city.
+rip_raid_threat_has_frontier_fort = {
+	any_owned_province = {
+		fort_level = 1
+		any_neighbor_province = {
+			is_city = yes
+			NOT = { owned_by = ROOT }
+		}
+	}
+}

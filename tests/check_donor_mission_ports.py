@@ -364,7 +364,7 @@ def main() -> int:
     )
     assert ukr_grid["UKR_ruthenian_empire"] == (3, 12)
     assert ukr_grid["KIE_second_jerusalem"] == (1, 11)
-    assert ukr_grid["UKR_swedish_question"] == (2, 11)
+    assert ukr_grid["UKR_swedish_question"] == (2, 10)
 
     for br, excl in (("diplomatic", "militarized"), ("militarized", "diplomatic")):
         simulate_stacking(

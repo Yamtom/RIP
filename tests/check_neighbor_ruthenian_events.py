@@ -9,7 +9,6 @@ Static only: inspects Clausewitz scripts and localisation; does not run EU4.
 from __future__ import annotations
 
 import re
-import subprocess
 import sys
 from pathlib import Path
 
@@ -48,6 +47,8 @@ VANILLA_EVENT_NO_OVERRIDE = (
     "Hungarian_Revolution_Disaster_Events.txt",
     "flavorHUN.txt",
     "flavorBAV.txt",
+    # An old full copy of this file once replaced vanilla for every country.
+    "WomenInHistory.txt",
 )
 
 VANILLA_DECISION_NO_OVERRIDE = (
@@ -262,14 +263,6 @@ def check_no_vanilla_overrides() -> None:
         assert not (ROOT / "events" / fn).exists(), f"unexpected override events/{fn}"
     for fn in VANILLA_DECISION_NO_OVERRIDE:
         assert not (ROOT / "decisions" / fn).exists(), f"unexpected override decisions/{fn}"
-    if (ROOT / ".git").exists():
-        res = subprocess.run(
-            ["git", "-C", str(ROOT), "status", "--porcelain", "--", "events/WomenInHistory.txt"],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        assert not res.stdout.strip(), f"events/WomenInHistory.txt should remain unmodified: {res.stdout}"
 
 
 def check_modifiers(all_event_texts: str) -> None:

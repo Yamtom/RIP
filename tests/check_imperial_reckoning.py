@@ -397,7 +397,7 @@ def main() -> int:
 
     eng_entries: dict[str, str] = {}
     for lang in LANGUAGES:
-        path = ROOT / "localisation" / f"RIP_shared_imperial_reckoning_l_{lang}.yml"
+        path = ROOT / "localisation" / f"RIP_shared_ruthenian_imperial_reckoning_l_{lang}.yml"
         raw = path.read_bytes()
         assert raw.startswith(BOM), f"{lang}: missing UTF-8 BOM"
         assert not raw.startswith(BOM + BOM), f"{lang}: duplicate UTF-8 BOM"

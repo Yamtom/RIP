@@ -1232,7 +1232,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "2960" not in srem
         and "religion = ROOT" in srem
         and "limit = { religion = catholic } add_papal_influence = 15" in srem
-        and "else = { rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }" in srem,
+        and "else = { rip_faith_mission_resource_effect = { PA = 0.15 GC = 0.05 PI = 15 ADM = 25 }" in srem,
         "UZH Srem Metropolis has the wrong province or gives a faith-currency no-op",
     )
     security_congress = normalized(
@@ -1268,7 +1268,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "religion = greek_catholic" in preserve_faith
         and "religion = greek_catholic" in union_mission
         and "limit = { religion = catholic } add_papal_influence = 25" in union_mission
-        and "limit = { religion = greek_catholic } rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }"
+        and "limit = { religion = greek_catholic } rip_faith_mission_resource_effect = { PA = 0.15 GC = 0.05 PI = 15 ADM = 25 }"
         in union_mission,
         "UZH mission tree excludes its own Greek Catholic religious path",
     )
@@ -1277,13 +1277,16 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     )
     require(
         failures,
-        "religion = orthodox religion = russian_orthodox religion = greek_catholic" in rite_settlement
+        "OR = { religion = orthodox religion = russian_orthodox } patriarch_authority = 0.75"
+        in rite_settlement
+        # The Greek Catholic bar refills three times slower, so its gate is lower.
+        and "religion = greek_catholic patriarch_authority = 0.25" in rite_settlement
         and "religion = catholic papal_influence = 50" in rite_settlement
         and "religion = ROOT uzh_identity_core_culture = yes value = 8"
         in rite_settlement
         and "limit = { religion = catholic } add_papal_influence = 25"
         in rite_settlement
-        and "else = { rip_faith_mission_resource_effect = { PA = 0.25 PI = 25 ADM = 25 }" in rite_settlement,
+        and "else = { rip_faith_mission_resource_effect = { PA = 0.25 GC = 0.08 PI = 25 ADM = 25 }" in rite_settlement,
         "UZH Ruthenian identity branch still requires Orthodox-only currency or provinces",
     )
     uzh_modifiers_raw = read("common/event_modifiers/RIP_UZH_modifiers.txt")
@@ -1471,10 +1474,11 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     )
     require(
         failures,
-        "rip_faith_mission_resource_effect = { PA = 0.1 PI = 10 ADM = 25 }" in rite_event
+        "rip_faith_mission_resource_effect = { PA = 0.1 GC = 0.03 PI = 10 ADM = 25 }" in rite_event
         and "limit = { religion = catholic } add_papal_influence = 10"
         in karloca_event
-        and "else = { add_patriarch_authority = 0.05" in karloca_event,
+        and "if = { limit = { NOT = { religion = catholic } } rip_grant_authority_effect = { PA = 0.05 GC = 0.02 }"
+        in karloca_event,
         "UZH Carpathian rite events still give Catholics Patriarch Authority no-ops",
     )
     require(
@@ -1555,7 +1559,8 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         failures,
         "limit = { religion = catholic } add_papal_influence = 15"
         in ruthenian_identity_event
-        and "else = { add_patriarch_authority = 0.1" in ruthenian_identity_event
+        and "if = { limit = { NOT = { religion = catholic } } rip_grant_authority_effect = { PA = 0.1 GC = 0.03 }"
+        in ruthenian_identity_event
         and "religion = ROOT uzh_identity_core_culture = yes"
         in ruthenian_identity_event,
         "UZH Ruthenian identity consequence still gives Catholics a Patriarch Authority no-op",

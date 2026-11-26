@@ -1,0 +1,128 @@
+# Raid threat: how open a realm's frontier is to the next raid. The loop is
+# threat -> defence investment -> military answer -> damage
+# (docs/GAME_DESIGN_DOCUMENT.uk.md section 3.2, docs/STEPPE_RAIDING_SYSTEM.md).
+#
+# Country variable rip_raid_threat runs from 0 to 6 and shows as three country
+# modifiers: low (1-2), medium (3-4), high (5-6). A raid that gets through raises
+# it by 2. Each year takes 1 off, 1 more with patrols or anti-raid works and 1
+# more with a fort on a foreign border; investing in either lowers it at once.
+# The country flag rip_raid_threat_tracked limits the yearly upkeep to realms
+# that carry a threat.
+#
+# Separate `if` blocks only: EU4 1.37.5 can drop effects inside else / else_if.
+
+# Province scope: extra devastation on an unguarded province that a raid reaches.
+# Call before rip_raid_threat_raise_effect, so the first raid on a quiet frontier
+# adds nothing.
+rip_raid_threat_scar_effect = {
+	if = {
+		limit = {
+			NOT = { rip_raid_province_is_guarded = yes }
+			owner = { has_country_modifier = rip_raid_threat_low }
+		}
+		add_devastation = 3
+	}
+	if = {
+		limit = {
+			NOT = { rip_raid_province_is_guarded = yes }
+			owner = { has_country_modifier = rip_raid_threat_medium }
+		}
+		add_devastation = 6
+	}
+	if = {
+		limit = {
+			NOT = { rip_raid_province_is_guarded = yes }
+			owner = { has_country_modifier = rip_raid_threat_high }
+		}
+		add_devastation = 10
+	}
+}
+
+# Country scope: the realm a raid has just got through to.
+rip_raid_threat_raise_effect = {
+	custom_tooltip = rip_raid_threat_raise_tt
+	hidden_effect = {
+		change_variable = { which = rip_raid_threat value = 2 }
+		set_country_flag = rip_raid_threat_tracked
+		rip_raid_threat_refresh_effect = yes
+	}
+}
+
+# Country scope: patrols or a lighter investment.
+rip_raid_threat_ease_effect = {
+	custom_tooltip = rip_raid_threat_ease_tt
+	hidden_effect = {
+		if = {
+			limit = { has_country_flag = rip_raid_threat_tracked }
+			subtract_variable = { which = rip_raid_threat value = 1 }
+			rip_raid_threat_refresh_effect = yes
+		}
+	}
+}
+
+# Country scope: permanent anti-raid works.
+rip_raid_threat_fortify_effect = {
+	custom_tooltip = rip_raid_threat_fortify_tt
+	hidden_effect = {
+		if = {
+			limit = { has_country_flag = rip_raid_threat_tracked }
+			subtract_variable = { which = rip_raid_threat value = 2 }
+			rip_raid_threat_refresh_effect = yes
+		}
+	}
+}
+
+# Country scope, ROOT = this country: called from on_yearly_pulse.
+rip_raid_threat_yearly_effect = {
+	if = {
+		limit = { has_country_flag = rip_raid_threat_tracked }
+		subtract_variable = { which = rip_raid_threat value = 1 }
+		if = {
+			limit = { rip_raid_threat_has_patrols = yes }
+			subtract_variable = { which = rip_raid_threat value = 1 }
+		}
+		if = {
+			limit = { rip_raid_threat_has_frontier_fort = yes }
+			subtract_variable = { which = rip_raid_threat value = 1 }
+		}
+		rip_raid_threat_refresh_effect = yes
+	}
+}
+
+# Country scope: clamp to 0-6 and show the matching tier. A realm back at zero
+# stops being tracked.
+rip_raid_threat_refresh_effect = {
+	if = {
+		limit = { check_variable = { which = rip_raid_threat value = 7 } }
+		set_variable = { which = rip_raid_threat value = 6 }
+	}
+	if = {
+		limit = { NOT = { check_variable = { which = rip_raid_threat value = 0 } } }
+		set_variable = { which = rip_raid_threat value = 0 }
+	}
+	remove_country_modifier = rip_raid_threat_low
+	remove_country_modifier = rip_raid_threat_medium
+	remove_country_modifier = rip_raid_threat_high
+	if = {
+		limit = {
+			check_variable = { which = rip_raid_threat value = 1 }
+			NOT = { check_variable = { which = rip_raid_threat value = 3 } }
+		}
+		add_country_modifier = { name = rip_raid_threat_low duration = -1 }
+	}
+	if = {
+		limit = {
+			check_variable = { which = rip_raid_threat value = 3 }
+			NOT = { check_variable = { which = rip_raid_threat value = 5 } }
+		}
+		add_country_modifier = { name = rip_raid_threat_medium duration = -1 }
+	}
+	if = {
+		limit = { check_variable = { which = rip_raid_threat value = 5 } }
+		add_country_modifier = { name = rip_raid_threat_high duration = -1 }
+	}
+	if = {
+		limit = { NOT = { check_variable = { which = rip_raid_threat value = 1 } } }
+		clr_country_flag = rip_raid_threat_tracked
+	}
+}

@@ -21,7 +21,7 @@ decisions = read('decisions/RIP_ParishVisit.txt')
 visit = event(read('events/RIP_shared_church_ParishVisit.txt'), 'rip_parish_visit.1')
 gate = normalized(named_block(triggers, 'rip_can_fund_parish_visit'))
 for item in ('rip_church_ro_jurisdiction = yes', 'religion = greek_catholic',
-             'treasury = 100', 'adm_power = 25', 'patriarch_authority = 0.05',
+             'treasury = 100', 'adm_power = 25', 'rip_has_parish_action_authority = yes',
              'is_at_war = no', 'NOT = { has_country_modifier = rip_parish_visit_recent }'):
     assert item in gate, item
 assert 'religion = russian_orthodox' not in gate
@@ -37,7 +37,7 @@ assert 'religion = orthodox' not in visit_potential
 transaction = named_block(effects, 'rip_fund_parish_visit_effect')
 assert 'rip_can_fund_parish_visit = yes' in named_block(transaction, 'limit')
 assert 'rip_parish_visit_target = yes' in named_block(named_block(transaction, 'random_owned_province'), 'limit')
-for payment in ('add_treasury = -100', 'add_adm_power = -25', 'add_patriarch_authority = -0.05'):
+for payment in ('add_treasury = -100', 'add_adm_power = -25', 'rip_pay_parish_action_authority_effect = yes'):
     assert transaction.count(payment) == 1, payment
 assert normalized(transaction).count('duration = 3650') == 2
 assert '$MODIFIER$' in transaction
@@ -55,7 +55,7 @@ assert 'region =' not in normalized(mission_target + mission_gate), 'funded miss
 assert 'has_province_modifier = rip_gc_faith_funded_mission' in normalized(mission_target)
 mission_decision = named_block(mission_decisions, 'rip_fund_a_parish_mission')
 assert 'rip_faith_fund_mission_effect = yes' in normalized(mission_decision)
-for payment in ('add_treasury = -100', 'add_adm_power = -25', 'add_patriarch_authority = -0.05'):
+for payment in ('add_treasury = -100', 'add_adm_power = -25', 'rip_pay_parish_action_authority_effect = yes'):
     assert mission_effect.count(payment) == 1, payment
 assert 'name = rip_parish_visit_recent duration = 3650' in normalized(mission_effect)
 assert normalized(mission_effect).count('duration = 3650') == 3
